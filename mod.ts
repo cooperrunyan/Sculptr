@@ -24683,9 +24683,8 @@ const importMeta = {
     url: "file:///Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/root.ts",
     main: false
 };
-const __filename = fileURLToPath(importMeta.url);
-const __dirname = dirname5(__filename);
-const root = resolve5(__dirname);
+const __dirname = dirname5(fromFileUrl5(importMeta.url));
+const root = __dirname;
 async function rewriteFiles(options, username) {
     const oldPackage = JSON.parse(readFileSync(resolve5('./package.json'), 'utf-8'));
     unlinkSync(resolve5('./package.json'));

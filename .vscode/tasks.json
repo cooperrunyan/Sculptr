@@ -12,6 +12,12 @@
       "label": "bundle",
       "type": "shell",
       "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && deno bundle --unstable /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/mod.ts"
+    },
+    {
+      "label": "run",
+      "type": "shell",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env https://deno.land/x/sculptr@publish/src/index.ts build react . --ts --scss --skip",
+      "problemMatcher": []
     }
   ]
 }
