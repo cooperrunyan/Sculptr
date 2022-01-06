@@ -28,27 +28,27 @@ export default function add(file: string, { overwrite, loose }: { overwrite: boo
 
 function writeTs(overwrite: boolean, strict: boolean): void {
   const exists: boolean = fs.existsSync('./tsconfig.json');
-  if (!exists) fs.copyFileSync(`${root}/assets/files/tsconfig${strict ? '-file' : '-loose'}.json`, './tsconfig.json');
+  if (!exists) fs.copyFileSync(`../../../assets/files/tsconfig${strict ? '-file' : '-loose'}.json`, './tsconfig.json');
   else {
     if (!overwrite) {
       const tsc = JSON.parse(fs.readFileSync(path.resolve('./tsconfig.json'), 'utf-8'));
-      const newTsc = JSON.parse(fs.readFileSync(`${root}/assets/files/tsconfig${strict ? '-file' : '-loose'}.json`, 'utf-8'));
+      const newTsc = JSON.parse(fs.readFileSync(`../../../assets/files/tsconfig${strict ? '-file' : '-loose'}.json`, 'utf-8'));
 
       tsc.compilerOptions = { ...tsc.compilerOptions, ...newTsc.compilerOptions };
 
       fs.writeFileSync('./tsconfig.json', JSON.stringify(tsc, null, 2));
-    } else fs.writeFileSync('./tsconfig.json', fs.readFileSync(`${root}/assets/files/tsconfig${strict ? '-file' : '-loose'}.json`, 'utf8'));
+    } else fs.writeFileSync('./tsconfig.json', fs.readFileSync(`../../../assets/files/tsconfig${strict ? '-file' : '-loose'}.json`, 'utf8'));
   }
 
   console.log(chalk.grey('sculptr:    ') + 'Added tsconfig.json');
 }
 
 function writeSass() {
-  copyFolderRecursiveSync(`${root}/assets/files/sass`, path.resolve('sass'));
+  copyFolderRecursiveSync(`../../../assets/files/sass`, path.resolve('sass'));
 }
 
 function writeScss() {
-  copyFolderRecursiveSync(`${root}/assets/files/scss`, path.resolve('scss'));
+  copyFolderRecursiveSync(`../../../assets/files/scss`, path.resolve('scss'));
 }
 
 const copyFileSync = function (source: string, target: string) {
