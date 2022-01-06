@@ -38,7 +38,7 @@ export default async function rewriteFiles(options: Configuration, username: str
   fs.writeFileSync(path.resolve('./LICENSE'), makeLicense(username || 'YOUR NAME'));
 
   // tsconfig
-  await exec(`node ${root}/index.js add tsc`);
+  // await exec(`node ${root}/index.js add tsc`);
 
   // README.md
   fs.writeFileSync(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`);
