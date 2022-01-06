@@ -43,7 +43,7 @@ export default async function build(dir: string, args: Args): Promise<void> {
   // Copy all the files into the cwd
   print(`Writing files...`);
   console.log(root);
-  await cpRecursive(`../../../assets/${origin}`, '.');
+  await cpRecursive(`../../../../assets/${origin}`, '.');
 
   /////////////////////////////////////////
   // Get username from github
