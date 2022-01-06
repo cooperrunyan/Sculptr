@@ -1,17 +1,18 @@
 import * as path from 'https://deno.land/std/path/mod.ts';
 import * as fs from 'https://deno.land/std/node/fs.ts';
+const decoder = new TextDecoder('utf-8');
 
-function copyFile(source: string, target: string) {
+async function copyFile(source: string, target: string) {
   var targetFile = target;
-  if (fs.existsSync(target)) {
-    if (fs.lstatSync(target).isDirectory()) {
+  if (fs.existsSync(path.resolve(target))) {
+    if (!Deno.lstatSync(path.resolve(target)).isFile) {
       targetFile = path.resolve(path.join(target, path.basename(source)));
     }
   }
-  fs.writeFileSync(targetFile, fs.readFileSync(source));
+  fs.writeFileSync(targetFile, decoder.decode(Deno.readFileSync(source)));
 }
 
-export default function cpRecursive(source: string, target: string, recursiveMode?: boolean) {
+export default async function cpRecursive(source: string, target: string, recursiveMode?: boolean) {
   let files = [];
   let param2: string;
   recursiveMode ? (param2 = path.basename(source)) : (param2 = '');
@@ -19,15 +20,12 @@ export default function cpRecursive(source: string, target: string, recursiveMod
   if (!fs.existsSync(targetFolder)) {
     fs.mkdirSync(targetFolder);
   }
-  if (fs.lstatSync(source).isDirectory()) {
-    files = fs.readdirSync(source);
-    files.forEach(function (file: string) {
-      const curSource = path.resolve(path.join(source, file));
-      if (fs.lstatSync(curSource).isDirectory()) {
-        cpRecursive(curSource, targetFolder, true);
-      } else {
-        copyFile(curSource, targetFolder);
-      }
-    });
+  for await (const file of Deno.readDir(path.fromFileUrl(source))) {
+    const curSource = path.fromFileUrl(path.join(source, file as unknown as string));
+    if (!Deno.lstatSync(curSource).isFile) {
+      cpRecursive(curSource, targetFolder, true);
+    } else {
+      await copyFile(curSource, targetFolder);
+    }
   }
 }
