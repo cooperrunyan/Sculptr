@@ -1,0 +1,128 @@
+.App::selection,
+.App *::selection {
+  background-color: #0056a6;
+  color: #fff; }
+
+.App {
+  --side-space: 12.8rem; }
+
+@media (max-width: calc(1400em / 16)) {
+  .App {
+    --side-space: 6rem; } }
+
+.App {
+  background-color: #e5e5e5;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  width: 100vw; }
+  .App * {
+    color: #0056a6; }
+
+.nav {
+  background-color: #8d8d8d1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem var(--side-space); }
+
+.logo__container {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem; }
+  .logo__container p {
+    color: inherit;
+    font-weight: normal;
+    font-size: 2.4rem;
+    letter-spacing: -0.025em; }
+
+.nav .logo {
+  height: 5rem; }
+
+.logo__bg {
+  max-height: 30rem;
+  opacity: 0.1;
+  position: absolute;
+  bottom: 0;
+  right: 0; }
+  .logo__bg .spin {
+    animation: spin 4s infinite linear reverse;
+    transform-origin: center; }
+
+.nav__links {
+  display: flex;
+  list-style: none;
+  gap: 4.8rem; }
+
+.nav__link {
+  font-weight: normal;
+  font-size: 1.8rem;
+  text-decoration: none; }
+
+.main {
+  padding: 5rem var(--side-space); }
+
+.project-name {
+  font-weight: 200;
+  font-size: 6.4rem;
+  letter-spacing: -0.04em;
+  margin-bottom: 3.6rem; }
+
+.info__big {
+  font-weight: 300;
+  font-size: 3.6rem;
+  letter-spacing: -0.04em; }
+
+.info__content {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; }
+
+.code {
+  font-family: 'Consolas', monospace; }
+
+.i-1 {
+  margin-left: 2ch; }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+.nav__card {
+  display: none;
+  text-decoration: none;
+  padding: 2.4rem 3.2rem;
+  outline: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0.6rem;
+  width: fit-content;
+  margin-top: 1.2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
+  transition: all 0.3s ease;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0; }
+  .nav__card__hidden {
+    opacity: 0;
+    position: relative;
+    pointer-events: none; }
+  .nav__card:first-of-type {
+    margin-top: 3.2rem; }
+  .nav__card:hover {
+    box-shadow: 0 0.6rem 2rem rgba(0, 0, 0, 0.1);
+    outline: 2px solid rgba(20, 121, 216, 0.3);
+    color: #1479d8; }
+
+@media (max-width: calc(900em / 16)) {
+  .nav__link {
+    display: none; }
+  .nav__card {
+    display: flex; } }
+
+.logo {
+  aspect-ratio: 1;
+  max-width: 30rem; }

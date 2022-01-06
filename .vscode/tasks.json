@@ -1,0 +1,17 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts build react . --ts --scss --skip"
+    },
+    {
+      "label": "bundle",
+      "type": "shell",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && deno bundle --unstable /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/mod.ts"
+    }
+  ]
+}
