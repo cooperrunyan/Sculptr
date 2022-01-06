@@ -16,7 +16,7 @@
     {
       "label": "run",
       "type": "shell",
-      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env https://deno.land/x/sculptr@0.0.3/src/index.ts build react . --ts --scss --skip",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env https://deno.land/x/sculptr@0.0.4/src/index.ts build react . --ts --scss --skip",
       "problemMatcher": []
     }
   ]
