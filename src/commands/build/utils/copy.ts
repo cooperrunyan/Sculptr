@@ -20,8 +20,8 @@ export default async function cpRecursive(source: string, target: string, recurs
   if (!fs.existsSync(targetFolder)) {
     fs.mkdirSync(targetFolder);
   }
-  for await (const file of Deno.readDir(path.fromFileUrl(source))) {
-    const curSource = path.fromFileUrl(path.join(source, file as unknown as string));
+  for await (const file of Deno.readDir(source)) {
+    const curSource = path.join(source, file as unknown as string);
     if (!Deno.lstatSync(curSource).isFile) {
       cpRecursive(curSource, targetFolder, true);
     } else {
