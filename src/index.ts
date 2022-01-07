@@ -1,3 +1,4 @@
+import { root } from './root.ts';
 import { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 
 import build from './commands/build/build.ts';
@@ -6,7 +7,7 @@ import update from './commands/update/index.ts';
 
 const program = new Command();
 
-const version = JSON.parse(Deno.readTextFileSync('./info.json')).version;
+const version = (await (await fetch(root + '/src/info.json')).json()).version;
 program.version(version).description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')
