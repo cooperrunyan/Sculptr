@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 
 import build from './commands/build/build.ts';
@@ -12,7 +10,7 @@ program
   .command('build <platform> <name>')
   .alias('b')
   .description(
-    "Builds scaffolding for a new project. <platform> should be 'next' or 'react' (other platforms are currently in development). <name> should be the name of the project, or directory to the project.",
+    "Builds scaffolding for a new project. <platform> should be 'next' or 'react'. <name> should be the name of the project, or directory to the project.",
   )
   .option('--s,--skip')
   .option('--scss')

@@ -4,17 +4,32 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "test",
+      "label": "Build test",
       "type": "shell",
       "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts build react . --ts --scss --skip"
     },
     {
-      "label": "add",
+      "label": "Mod test",
+      "type": "shell",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/mod.js build react . --ts --scss --skip"
+    },
+    {
+      "label": "Web Build test",
+      "type": "shell",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-net --allow-run --allow-env https://deno.land/x/sculptr@0.0.15/src/index.ts build react . --ts --scss --skip"
+    },
+    {
+      "label": "Add test",
       "type": "shell",
       "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts add tsc --no-strict --react"
     },
     {
-      "label": "assets",
+      "label": "Web Add test",
+      "type": "shell",
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-net --allow-env https://deno.land/x/sculptr@0.0.15/src/index.ts add tsc --no-strict --react"
+    },
+    {
+      "label": "Assets",
       "type": "shell",
       "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && deno run --unstable --allow-read --allow-write --allow-env src/generateAssets.ts"
     }
