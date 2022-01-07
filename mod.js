@@ -7526,10 +7526,10 @@ function _supportsColor(haveStream, { streamIsTTY , sniffFlags =true  } = {
         return 3;
     }
     if ('TERM_PROGRAM' in env1) {
-        const version1 = Number.parseInt((env1.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+        const version2 = Number.parseInt((env1.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
         switch(env1.TERM_PROGRAM){
             case 'iTerm.app':
-                return version1 >= 3 ? 3 : 2;
+                return version2 >= 3 ? 3 : 2;
             case 'Apple_Terminal':
                 return 2;
         }
@@ -8240,8 +8240,15 @@ async function build(dir, args) {
     });
     return;
 }
+async function update() {
+    const res = (await exec('deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/mod.js')).split('\n')[0].replace('✅ ', '');
+    const response = await fetch('https://deno.land/x/sculptr/src/info.json');
+    const { version: version3  } = await response.json();
+    console.log(res.trim() + '@' + version3);
+}
 const program = new Command();
-program.version('0.0.0').description('A command line tool for creating your projects');
+const version1 = JSON.parse(Deno.readTextFileSync('./info.json')).version;
+program.version(version1).description('A command line tool for creating your projects');
 program.command('build <platform> <name>').alias('b').description("Builds scaffolding for a new project. <platform> should be 'next' or 'react'. <name> should be the name of the project, or directory to the project.").option('--s,--skip').option('--scss').option('--sass').option('--css').option('--ts,--typescript').option('--js,--javascript').action((platform1, dir, args)=>{
     if (platform1 === 'n') platform1 = 'next';
     if (platform1 === 'r') platform1 = 'react';
@@ -8253,9 +8260,11 @@ program.command('build <platform> <name>').alias('b').description("Builds scaffo
     });
 });
 program.command('add <file>').option('--log', 'Log the file instead of writing it').option('-S --no-strict', 'Uses stricter typescript settings').option('--react').option('--next').option('--overwrite').description('Adds a new asset to your project.').action(add);
+program.command('update').description('Updates sculptr to the latest version').action(update);
 program.parse(Deno.args);
 const __default2 = {
     build,
-    add
+    add,
+    update
 };
 export { __default2 as default };

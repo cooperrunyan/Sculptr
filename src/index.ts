@@ -2,10 +2,12 @@ import { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 
 import build from './commands/build/build.ts';
 import add from './commands/add/index.ts';
+import update from './commands/update/index.ts';
 
 const program = new Command();
 
-program.version('0.0.0').description('A command line tool for creating your projects');
+const version = JSON.parse(Deno.readTextFileSync('./info.json')).version;
+program.version(version).description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')
   .alias('b')
@@ -46,9 +48,12 @@ program
   .description('Adds a new asset to your project.')
   .action(add);
 
+program.command('update').description('Updates sculptr to the latest version').action(update);
+
 program.parse(Deno.args);
 
 export default {
   build,
   add,
+  update,
 };
