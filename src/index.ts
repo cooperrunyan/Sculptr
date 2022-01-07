@@ -7,7 +7,7 @@ import use from './commands/use/index.ts';
 
 const program = new Command();
 
-const version = '0.0.27';
+const version = '0.0.28';
 program.version(version).description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')
@@ -49,7 +49,12 @@ program
   .description('Adds a new asset to your project.')
   .action(add);
 
-program.command('use [version]').alias('install').alias('update').description('Installs a given version of sculptr').action(use);
+program
+  .command('use [version]')
+  .alias('install')
+  .alias('update')
+  .description('Installs a given version of sculptr (defaults to the latest version)')
+  .action(use);
 
 program.parse(Deno.args);
 
