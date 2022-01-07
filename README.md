@@ -16,7 +16,7 @@ Sculptr is a cli that allows users to build project scaffolding. When a user tel
 ### Deno
 
 ```bash
-$ deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/mod.js
+$ deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/src/index.ts
 ```
 
 ---

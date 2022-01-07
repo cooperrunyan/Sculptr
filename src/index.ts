@@ -6,7 +6,7 @@ import use from './commands/use/index.ts';
 
 const program = new Command();
 
-const version = '0.1.0';
+const version = '0.1.1';
 program.version(version).description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')
