@@ -8265,6 +8265,7 @@ async function use(number) {
     console.log(`Successfully installed sculptr@${version3}`);
 }
 const program = new Command();
+console.log(root);
 const version1 = (await (await fetch(root + '/src/info.json')).json()).version;
 program.version(version1).description('A command line tool for creating your projects');
 program.command('build <platform> <name>').alias('b').description("Builds scaffolding for a new project. <platform> should be 'next' or 'react'. <name> should be the name of the project, or directory to the project.").option('--s,--skip').option('--scss').option('--sass').option('--css').option('--ts,--typescript').option('--js,--javascript').action((platform1, dir, args)=>{
