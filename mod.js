@@ -8241,10 +8241,10 @@ async function build(dir, args) {
     return;
 }
 async function update() {
-    const res = (await exec('deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/mod.js')).split('\n')[0].replace('✅ ', '');
-    const response = await fetch('https://deno.land/x/sculptr/src/info.json');
-    const { version: version3  } = await response.json();
-    console.log(res.trim() + '@' + version3);
+    const response = await fetch('https://api.github.com/repos/cooperrunyan/Sculptr/releases');
+    const version3 = (await response.json())[0].tag_name;
+    await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version3}/mod.js`);
+    console.log(`Successfully installed sculptr@${version3}`);
 }
 const program = new Command();
 const version1 = (await (await fetch(root + '/src/info.json')).json()).version;
