@@ -1,8 +1,3 @@
-const importMeta = {
-    url: "file:///Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/root.ts",
-    main: false
-};
-const root = importMeta.url.replace('/src/root.ts', '');
 function notImplemented(msg) {
     const message = msg ? `Not implemented: ${msg}` : "Not implemented";
     throw new Error(message);
@@ -7982,6 +7977,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 `;
 }
+const importMeta = {
+    url: "file:///Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/root.ts",
+    main: false
+};
+const root = importMeta.url.replace('/src/root.ts', '');
 new Chalk();
 const files = [
     {
@@ -8265,7 +8265,7 @@ async function use(number = 'latest') {
     console.log(`Successfully installed sculptr@${version3}`);
 }
 const program = new Command();
-const version1 = (await (await fetch(root + '/src/info.json')).json()).version;
+const version1 = '0.0.27';
 program.version(version1).description('A command line tool for creating your projects');
 program.command('build <platform> <name>').alias('b').description("Builds scaffolding for a new project. <platform> should be 'next' or 'react'. <name> should be the name of the project, or directory to the project.").option('--s,--skip').option('--scss').option('--sass').option('--css').option('--ts,--typescript').option('--js,--javascript').action((platform1, dir, args)=>{
     if (platform1 === 'n') platform1 = 'next';
