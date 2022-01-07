@@ -16,7 +16,7 @@
     {
       "label": "Update",
       "type": "shell",
-      "command": "deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/mod.js"
+      "command": "deno uninstall sculptr && deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/mod.js"
     },
     {
       "label": "Bundle",
