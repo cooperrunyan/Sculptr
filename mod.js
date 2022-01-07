@@ -8240,7 +8240,7 @@ async function build(dir, args) {
     });
     return;
 }
-async function use(number) {
+async function use(number = 'latest') {
     const response = await fetch('https://api.github.com/repos/cooperrunyan/Sculptr/releases');
     const releases = await response.json();
     const [exists, version3] = (()=>{
@@ -8265,7 +8265,6 @@ async function use(number) {
     console.log(`Successfully installed sculptr@${version3}`);
 }
 const program = new Command();
-console.log(root);
 const version1 = (await (await fetch(root + '/src/info.json')).json()).version;
 program.version(version1).description('A command line tool for creating your projects');
 program.command('build <platform> <name>').alias('b').description("Builds scaffolding for a new project. <platform> should be 'next' or 'react'. <name> should be the name of the project, or directory to the project.").option('--s,--skip').option('--scss').option('--sass').option('--css').option('--ts,--typescript').option('--js,--javascript').action((platform1, dir, args)=>{
@@ -8279,7 +8278,7 @@ program.command('build <platform> <name>').alias('b').description("Builds scaffo
     });
 });
 program.command('add <file>').option('--log', 'Log the file instead of writing it').option('-S --no-strict', 'Uses stricter typescript settings').option('--react').option('--next').option('--overwrite').description('Adds a new asset to your project.').action(add);
-program.command('use <version>').alias('install').alias('update').description('Installs a given version of sculptr').action(use);
+program.command('use [version]').alias('install').alias('update').description('Installs a given version of sculptr').action(use);
 program.parse(Deno.args);
 const __default2 = {
     build,

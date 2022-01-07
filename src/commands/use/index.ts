@@ -1,6 +1,6 @@
 import exec from '../build/utils/exec.ts';
 
-export default async function use(number: string) {
+export default async function use(number: string = 'latest') {
   const response = await fetch('https://api.github.com/repos/cooperrunyan/Sculptr/releases');
   const releases = await response.json();
   const [exists, version] = (() => {
