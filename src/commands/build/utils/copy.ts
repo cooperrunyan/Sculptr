@@ -1,31 +1,36 @@
-import * as path from 'https://deno.land/std/path/mod.ts';
-import * as fs from 'https://deno.land/std/node/fs.ts';
-const decoder = new TextDecoder('utf-8');
+import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
+import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
+import * as streams from 'https://deno.land/std/streams/conversion.ts';
 
-async function copyFile(source: string, target: string) {
-  var targetFile = target;
-  if (fs.existsSync(path.resolve(target))) {
-    if (!Deno.lstatSync(path.resolve(target)).isFile) {
-      targetFile = path.resolve(path.join(target, path.basename(source)));
-    }
-  }
-  fs.writeFileSync(targetFile, decoder.decode(Deno.readFileSync(source)));
-}
+export default async function (src: string, destination: string) {
+  const res = await fetch(src + '.json');
+  const files = await res.json();
 
-export default async function cpRecursive(source: string, target: string, recursiveMode?: boolean) {
-  let files = [];
-  let param2: string;
-  recursiveMode ? (param2 = path.basename(source)) : (param2 = '');
-  const targetFolder = path.resolve(path.join(target, param2));
-  if (!fs.existsSync(targetFolder)) {
-    fs.mkdirSync(targetFolder);
-  }
-  for await (const file of Deno.readDir(source)) {
-    const curSource = path.join(source, file as unknown as string);
-    if (!Deno.lstatSync(curSource).isFile) {
-      cpRecursive(curSource, targetFolder, true);
+  Object.keys(files).forEach(async (key: string) => {
+    const segments = key.split('/');
+
+    //////////////////////////////////////////
+
+    if (segments[0] && segments[0] !== segments.at(-1)) fs.ensureDirSync(path.resolve(`./${segments[0]}`));
+    if (segments[1] && segments[1] !== segments.at(-1)) fs.ensureDirSync(path.resolve(`./${segments[0]}`, segments[1]));
+    if (segments[2] && segments[2] !== segments.at(-1)) fs.ensureDirSync(path.resolve(`./${segments[0]}`, segments[1], segments[2]));
+    if (segments[3] && segments[3] !== segments.at(-1)) fs.ensureDirSync(path.resolve(`./${segments[0]}`, segments[1], segments[2], segments[3]));
+    if (segments[4] && segments[4] !== segments.at(-1)) fs.ensureDirSync(path.resolve(`./${segments[0]}`, segments[1], segments[2], segments[3], segments[4]));
+
+    // Create directories if they arent already
+    //////////////////////////////////////////
+
+    if (/.png$|.ico$|.jpg$|.jpeg$/.test(key)) {
+      const res = await fetch(files[key]);
+      const reader = res.body?.getReader();
+      if (reader) {
+        const source = streams.readerFromStreamReader(reader);
+        const newFile = await Deno.open('.' + key, { create: true, write: true });
+        await streams.copy(source, newFile);
+        newFile.close();
+      }
     } else {
-      await copyFile(curSource, targetFolder);
+      Deno.writeTextFileSync(path.resolve('./' + key), files[key]);
     }
-  }
+  });
 }

@@ -9,15 +9,14 @@
       "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts build react . --ts --scss --skip"
     },
     {
-      "label": "bundle",
+      "label": "add",
       "type": "shell",
-      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && deno bundle --unstable /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/mod.ts"
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts add tsc --no-strict --react"
     },
     {
-      "label": "run",
+      "label": "assets",
       "type": "shell",
-      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env https://deno.land/x/sculptr@0.0.13/src/index.ts build react . --ts --scss --skip",
-      "problemMatcher": []
+      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && deno run --unstable --allow-read --allow-write --allow-env src/generateAssets.ts"
     }
   ]
 }

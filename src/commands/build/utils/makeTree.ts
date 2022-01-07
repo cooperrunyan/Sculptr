@@ -7,8 +7,9 @@ import type Colors from '../types/Colors.ts';
 import { Chalk } from 'https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js';
 const chalk = new Chalk();
 
-import fs from 'https://deno.land/std@0.119.0/node/fs.ts';
-import { path } from 'https://deno.land/x/cmd@v1.2.0/deps.ts';
+import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
+import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
+
 let files: string[] = [];
 export default async function () {
   const tree = makeTree();
@@ -95,25 +96,25 @@ function makeTree(): string {
   files.forEach(file => {
     const arr = file.split('/');
 
-    info[arr[0]] = fs.lstatSync(path.resolve(arr[0] || '')).isDirectory() && !fs.lstatSync(path.resolve(arr[0] || '')).isFile() ? info[arr[0]] || {} : arr[0];
+    info[arr[0]] = Deno.lstatSync(path.resolve(arr[0] || '')).isDirectory && !Deno.lstatSync(path.resolve(arr[0] || '')).isFile ? info[arr[0]] || {} : arr[0];
 
     if (typeof info[arr[0]] !== 'string')
       info[arr[0]][arr[1]] =
-        fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '')).isDirectory() && !fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '')).isFile()
+        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '')).isDirectory && !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '')).isFile
           ? info[arr[0]][arr[1]] || {}
           : arr[1];
 
     if (info[arr[0]] && info[arr[0]][arr[1]] && typeof info[arr[0]][arr[1]] !== 'string')
       info[arr[0]][arr[1]][arr[2]] =
-        fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '')).isDirectory() &&
-        !fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '')).isFile()
+        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '')).isDirectory &&
+        !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '')).isFile
           ? info[arr[0]][arr[1]][arr[2]] || {}
           : arr[2];
 
     if (info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && typeof info[arr[0]][arr[1]][arr[2]] !== 'string')
       info[arr[0]][arr[1]][arr[2]][arr[3]] =
-        fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isDirectory() &&
-        !fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isFile()
+        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isDirectory &&
+        !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isFile
           ? info[arr[0]][arr[1]][arr[2]][arr[3]] || {}
           : arr[3];
 
@@ -125,8 +126,8 @@ function makeTree(): string {
       typeof info[arr[0]][arr[1]][arr[2]][arr[3]] !== 'string'
     )
       info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] =
-        fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isDirectory() &&
-        !fs.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isFile()
+        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isDirectory &&
+        !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isFile
           ? info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] || {}
           : arr[4];
   });
@@ -143,12 +144,12 @@ function makeTree(): string {
 
 function dirTree(filename: any) {
   files.push(filename);
-  const stats = fs.lstatSync(filename);
+  const stats = Deno.lstatSync(filename);
   const info: any = { name: filename };
-  if (stats.isDirectory()) {
-    fs.readdirSync(filename, { encoding: 'utf-8' })?.forEach((child: string) => {
-      info[child] = child;
-      dirTree(filename + '/' + child);
+  if (stats.isDirectory) {
+    Array.from(Deno.readDirSync(filename))?.forEach(child => {
+      info[child.name] = child.name;
+      dirTree(filename + '/' + child.name);
     });
   } else return info;
 }

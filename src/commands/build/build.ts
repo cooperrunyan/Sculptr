@@ -1,6 +1,6 @@
 import ask from './ask.ts';
 
-import * as path from 'https://deno.land/std/path/mod.ts';
+import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
 
 import type Args from './types/BuildArgs.ts';
 import type Configuration from './types/Configuration.ts';
@@ -42,8 +42,7 @@ export default async function build(dir: string, args: Args): Promise<void> {
   /////////////////////////////////////////
   // Copy all the files into the cwd
   print(`Writing files...`);
-  console.log(root);
-  await cpRecursive(`../../../../assets/${origin}`, '.');
+  await cpRecursive(`${root}/assets/out/${origin}`, path.resolve('.'));
 
   /////////////////////////////////////////
   // Get username from github

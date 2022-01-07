@@ -1,17 +1,18 @@
-import * as fs from 'https://deno.land/std/node/fs.ts';
-import * as path from 'https://deno.land/std/path/mod.ts';
+import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
+import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
+
 import type Configuration from './types/Configuration.ts';
 import exec from './utils/exec.ts';
 import makeLicense from './utils/makeLicense.ts';
-import { root } from '../../root.ts';
+import add from '../add/index.ts';
 
 export default async function rewriteFiles(options: Configuration, username: string) {
   /////////////////////////////////////////
   // package.json
-  const oldPackage = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
-  fs.unlinkSync(path.resolve('./package.json'));
+  const oldPackage = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));
+  Deno.removeSync(path.resolve('./package.json'));
   await exec('npm init -y');
-  const newPackageFile = JSON.parse(fs.readFileSync(path.resolve('./package.json'), 'utf-8'));
+  const newPackageFile = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));
 
   newPackageFile.main = oldPackage.main;
   newPackageFile.author = username;
@@ -29,32 +30,31 @@ export default async function rewriteFiles(options: Configuration, username: str
 
   const projectName = newPackageFile.name;
 
-  fs.writeFileSync(path.resolve('./package.json'), JSON.stringify(newPackageFile, null, 2));
+  Deno.writeTextFileSync(path.resolve('./package.json'), JSON.stringify(newPackageFile, null, 2));
 
   // gitignore
-  fs.writeFileSync(path.resolve('./.gitignore'), 'node_modules\n');
+  Deno.writeTextFileSync(path.resolve('./.gitignore'), 'node_modules\n');
 
   // license
-  fs.writeFileSync(path.resolve('./LICENSE'), makeLicense(username || 'YOUR NAME'));
+  Deno.writeTextFileSync(path.resolve('./LICENSE'), makeLicense(username || 'YOUR NAME'));
 
   // tsconfig
-  // await exec(`node ${root}/index.js add tsc`);
+  await add('tsc', { strict: true, [options.platform]: true, overwrite: true });
 
   // README.md
-  fs.writeFileSync(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`);
+  Deno.writeTextFileSync(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`);
 
   // homepage
   const extension = options.script === 'typescript' ? '.tsx' : '.jsx';
   const hpDir = options.platform === 'next' ? path.resolve('pages/index' + extension) : options.platform === 'react' ? path.resolve('src/App' + extension) : '';
 
-  const script = fs
-    .readFileSync(hpDir, 'utf-8')
+  const script = Deno.readTextFileSync(hpDir)
     .replaceAll('PROJECT-NAME', projectName)
     .replaceAll('SCRIPT', options.script)
     .replaceAll('PLATFORM', options.platform)
     .replaceAll('STYLE', options.style);
 
-  fs.writeFileSync(hpDir, script);
+  Deno.writeTextFileSync(hpDir, script);
 
   return newPackageFile;
   /////////////////////////////////////////

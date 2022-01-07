@@ -3,7 +3,6 @@
 import { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 
 import build from './commands/build/build.ts';
-import generate from './commands/asset-generator/main.ts';
 import add from './commands/add/index.ts';
 
 const program = new Command();
@@ -39,13 +38,19 @@ program
     },
   );
 
-program.command('add <name>').alias('a').option('-y --overwrite').option('--no-strict --loose').description('Adds a new asset to your project.').action(add);
+program
+  .command('add <file>')
+  .option('--log', 'Log the file instead of writing it')
+  .option('-S --no-strict', 'Uses stricter typescript settings')
+  .option('--react')
+  .option('--next')
+  .option('--overwrite')
+  .description('Adds a new asset to your project.')
+  .action(add);
 
-program.command('next-pwa').description('Generates assets for PWA').option('--logo <path>').option('--manifest <path>').action(generate);
 program.parse(Deno.args);
 
 export default {
   build,
-  generate,
   add,
 };
