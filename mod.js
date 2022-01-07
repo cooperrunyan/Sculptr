@@ -8240,10 +8240,28 @@ async function build(dir, args) {
     });
     return;
 }
-async function update() {
+async function use(number) {
     const response = await fetch('https://api.github.com/repos/cooperrunyan/Sculptr/releases');
-    const version3 = (await response.json())[0].tag_name;
-    await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version3}/mod.js`);
+    const releases = await response.json();
+    const [exists, version3] = (()=>{
+        for (const release of releases){
+            if (release.tag_name === number) return [
+                true,
+                number
+            ];
+        }
+        if (number === 'latest' || number === '@latest') return [
+            true,
+            releases[0].tag_name
+        ];
+        return [
+            false
+        ];
+    })();
+    if (!version3 || !exists) throw new Error('Ivalid version number');
+    if (exists) {
+        await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version3}/mod.js`);
+    }
     console.log(`Successfully installed sculptr@${version3}`);
 }
 const program = new Command();
@@ -8260,11 +8278,11 @@ program.command('build <platform> <name>').alias('b').description("Builds scaffo
     });
 });
 program.command('add <file>').option('--log', 'Log the file instead of writing it').option('-S --no-strict', 'Uses stricter typescript settings').option('--react').option('--next').option('--overwrite').description('Adds a new asset to your project.').action(add);
-program.command('update').description('Updates sculptr to the latest version').action(update);
+program.command('use <version>').alias('install').alias('update').description('Installs a given version of sculptr').action(use);
 program.parse(Deno.args);
 const __default2 = {
     build,
     add,
-    update
+    use
 };
 export { __default2 as default };

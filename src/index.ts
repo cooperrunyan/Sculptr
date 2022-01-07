@@ -49,7 +49,7 @@ program
   .description('Adds a new asset to your project.')
   .action(add);
 
-program.command('use <version>').description('Installs a given version of sculptr').action(use);
+program.command('use <version>').alias('install').alias('update').description('Installs a given version of sculptr').action(use);
 
 program.parse(Deno.args);
 
