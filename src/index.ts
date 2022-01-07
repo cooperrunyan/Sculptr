@@ -7,9 +7,7 @@ import use from './commands/use/index.ts';
 
 const program = new Command();
 
-console.log(root);
-const version = (await (await fetch(root + '/src/info.json')).json()).version;
-program.version(version).description('A command line tool for creating your projects');
+program.version('0.0.22').description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')
   .alias('b')
