@@ -13,8 +13,10 @@ Sculptr is a cli that allows users to build project scaffolding. When a user tel
 
 ## Installation
 
+### Deno
+
 ```bash
-$ npm i -g sculptr
+$ deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/mod.js
 ```
 
 ---
@@ -55,34 +57,38 @@ sculptr:
 sculptr:    Making an visual representation of the folder tree...
 sculptr:    Tree created:
 sculptr:
-sculptr:    ├── LICENSE
-sculptr:    ├── README.md
-sculptr:    ├── package.json
-sculptr:    ├── public
-sculptr:    |  ├── favicon.ico
-sculptr:    |  ├── index.html
-sculptr:    |  ├── logo192.png
-sculptr:    |  ├── logo512.png
-sculptr:    |  ├── manifest.json
-sculptr:    |  └── robots.txt
-sculptr:    ├── src
-sculptr:    |  ├── App.tsx
-sculptr:    |  ├── index.tsx
-sculptr:    |  ├── logo.svg
-sculptr:    |  ├── react-app-env.d.ts
-sculptr:    |  └── style
-sculptr:    |     ├── abstracts
-sculptr:    |     |  ├── _mixins.scss
-sculptr:    |     |  ├── _utils.scss
-sculptr:    |     |  └── _variables.scss
-sculptr:    |     ├── app.scss
-sculptr:    |     ├── base
-sculptr:    |     |  └── _reset.scss
-sculptr:    |     └── base.scss
+sculptr:    ├─ LICENSE
+sculptr:    ├─ README.md
+sculptr:    ├─ public
+sculptr:    │  ├─ favicon.ico
+sculptr:    │  ├─ index.html
+sculptr:    │  ├─ logo512.png
+sculptr:    │  ├─ manifest.json
+sculptr:    │  ├─ robots.txt
+sculptr:    │  └─ logo192.png
+sculptr:    ├─ .gitignore
+sculptr:    ├─ package.json
+sculptr:    ├─ tsconfig.json
+sculptr:    └─ src
+sculptr:       ├─ index.tsx
+sculptr:       ├─ App.tsx
+sculptr:       ├─ style
+sculptr:       │  ├─ base.scss
+sculptr:       │  ├─ abstracts
+sculptr:       │  │  ├─ _variables.scss
+sculptr:       │  │  ├─ _utils.scss
+sculptr:       │  │  └─ _mixins.scss
+sculptr:       │  ├─ base
+sculptr:       │  │  └─ _reset.scss
+sculptr:       │  └─ app.scss
+sculptr:       ├─ react-app-env.d.ts
+sculptr:
+sculptr:    Installing dependencies...
+sculptr:    Dependencies installed
 sculptr:
 sculptr:    Task completed
 sculptr:      Project Name:  'my-new-app'
-sculptr:      Username:      'YOUR GITHUB NAME'
+sculptr:      Username:      'YOUR_GITHUB_USERNAME'
 sculptr:
 sculptr:    Built a new project with: React, Typescript, Scss
 sculptr:
@@ -91,6 +97,7 @@ sculptr:      start:  'react-scripts start',
 sculptr:      build:  'react-scripts build',
 sculptr:      test:   'react-scripts test',
 sculptr:      eject:  'react-scripts eject'
+
 ```
 
 ---
@@ -129,10 +136,36 @@ Adds an asset to the current working directory
 
 Accepted values:
 
-- `sass`
-- `scss`
 - `tsconfig`, `tsc`, or `ts`
+
+### Flags
+
+- `--log` Only log the file to the console instead of writing it
+- `-S`, `--no-strict` Uses less strict typescript settings
+- `--next` Writes a tsconfig that caters to nextjs projects
+- `--react` Writes a tsconfig that caters to react projects
+- `--overwrite` Overwrites the preexisting tsconfig if it exists
 
 ```
 $ sculptr add tsconfig
+```
+
+## Update/Use/Install
+
+Updates sculptr to a given version (defaults to the latest)
+
+```bash
+$ sculptr update
+```
+
+```bash
+$ sculptr use X.X.X
+```
+
+```bash
+$ sculptr use latest
+```
+
+```bash
+$ sculptr install X.X.X
 ```

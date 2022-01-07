@@ -8123,27 +8123,8 @@ async function __default1() {
     for(let i = 0; i < str.length; i++){
         str[i] = config.prefix + str[i];
     }
-    str = str.join('\n').padEnd(str.length + 10, ' ').padStart(str.length + 10, ' ');
-    const color = function(extension, color) {
-        const string = str.slice();
-        let newStr = string.split(`.${extension} `).join('.' + chalk1[color](extension));
-        newStr = newStr.split(`.${extension}\n`).join('.' + chalk1[color](`${extension}\n`));
-        newStr = newStr.split(`.${extension}\r`).join('.' + chalk1[color](`${extension}\r`));
-        return newStr;
-    };
-    str = str.split('|').join(chalk1.grey('|')).split('│').join(chalk1.grey('│')).split('└').join(chalk1.grey('└')).split('─').join(chalk1.grey('─')).split('├').join(chalk1.grey('├')).split('\r\n').join('  \r\n');
-    str = color('css', 'cyan');
-    str = color('scss', 'red');
-    str = color('sass', 'red');
-    str = color('tsx', 'blue');
-    str = color('jsx', 'cyan');
-    str = color('json', 'red');
-    str = color('js', 'yellowBright');
-    str = color('html', 'yellow');
-    str = color('d.ts', 'green');
-    str = color('ts', 'blue');
-    str = str.split('.js.map ').join('.' + chalk1.yellowBright('js') + '.' + chalk1.yellowBright('map')).split('.js.map\n').join('.' + chalk1.yellowBright('js') + '.' + chalk1.yellowBright('map\n')).split('.js.map\r').join('.' + chalk1.yellowBright('js') + '.' + chalk1.yellowBright('map\r')).split('.d.ts').join('.' + chalk1.green('d.ts')).split('.d.ts\n').join('.' + chalk1.green('d.ts\n')).split('.d.ts\r').join('.' + chalk1.green('d.ts\r')).split('LICENSE').join(chalk1.yellow('LICENSE')).split('LICENSE\n').join(chalk1.yellow('LICENSE\n')).split('LICENSE\r').join(chalk1.yellow('LICENSE\r'));
-    return str.trim();
+    return str.join('\n').padEnd(str.length + 10, ' ').padStart(str.length + 10, ' ').replaceAll(/\├|\||\│|\└|\─/g, (c)=>chalk1.grey(c)
+    ).replaceAll(/(?<=\.)css(?=(\W|$))/g, chalk1.cyan('css')).replaceAll(/(?<=\.)scss(?=(\W|$))/g, chalk1.red('scss')).replaceAll(/(?<=\.)sass(?=(\W|$))/g, chalk1.red('sass')).replaceAll(/(?<=\.)tsx(?=(\W|$))/g, chalk1.blue('tsx')).replaceAll(/(?<=\.)d\.ts(?=(\W|$))/g, chalk1.green('d.ts')).replaceAll(/(?<=\.)(?<!d\.)ts(?=(\W|$))/g, chalk1.blue('ts')).replaceAll(/(?<=\.)jsx(?=(\W|$))/g, chalk1.cyan('jsx')).replaceAll(/(?<=\.)js(?=(\W|$))/g, chalk1.yellowBright('js')).replaceAll(/(?<=\.)json(?=(\W|$))/g, chalk1.red('json')).replaceAll(/LICENSE(?=(\W|$))/g, chalk1.yellow('LICENSE')).replaceAll(/(?<=\.)js\.map(?=(\W|$))/g, chalk1.yellow('js.map')).trim();
 }
 function makeTree() {
     dirTree('.');
@@ -8153,15 +8134,35 @@ function makeTree() {
     };
     files1.forEach((file)=>{
         const arr = file.split('/');
-        info[arr[0]] = Deno.lstatSync(resolve5(arr[0] || '')).isDirectory && !Deno.lstatSync(resolve5(arr[0] || '')).isFile ? info[arr[0]] || {
+        info[arr[0]] = isDir([
+            arr[0]
+        ]) ? info[arr[0]] || {
         } : arr[0];
-        if (typeof info[arr[0]] !== 'string') info[arr[0]][arr[1]] = Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '')).isDirectory && !Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '')).isFile ? info[arr[0]][arr[1]] || {
+        if (checkValidFile(info, arr, 0)) info[arr[0]][arr[1]] = isDir([
+            arr[0],
+            arr[1]
+        ]) ? info[arr[0]][arr[1]] || {
         } : arr[1];
-        if (info[arr[0]] && info[arr[0]][arr[1]] && typeof info[arr[0]][arr[1]] !== 'string') info[arr[0]][arr[1]][arr[2]] = Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '', arr[2] || '')).isDirectory && !Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '', arr[2] || '')).isFile ? info[arr[0]][arr[1]][arr[2]] || {
+        if (checkValidFile(info, arr, 1)) info[arr[0]][arr[1]][arr[2]] = isDir([
+            arr[0],
+            arr[1],
+            arr[2]
+        ]) ? info[arr[0]][arr[1]][arr[2]] || {
         } : arr[2];
-        if (info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && typeof info[arr[0]][arr[1]][arr[2]] !== 'string') info[arr[0]][arr[1]][arr[2]][arr[3]] = Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isDirectory && !Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isFile ? info[arr[0]][arr[1]][arr[2]][arr[3]] || {
+        if (checkValidFile(info, arr, 2)) info[arr[0]][arr[1]][arr[2]][arr[3]] = isDir([
+            arr[0],
+            arr[1],
+            arr[2],
+            arr[3]
+        ]) ? info[arr[0]][arr[1]][arr[2]][arr[3]] || {
         } : arr[3];
-        if (info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && info[arr[0]][arr[1]][arr[2]][arr[3]] && typeof info[arr[0]][arr[1]][arr[2]][arr[3]] !== 'string') info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] = Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isDirectory && !Deno.lstatSync(resolve5(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isFile ? info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] || {
+        if (checkValidFile(info, arr, 3)) info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] = isDir([
+            arr[0],
+            arr[1],
+            arr[2],
+            arr[3],
+            arr[4]
+        ]) ? info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] || {
         } : arr[4];
     });
     const t = jsonTree(info['.'], true, false).replaceAll(/: \w+.\w+.+|: .\w+/gi, '').split('\n').map((value)=>value.replaceAll(/.+undefined/gi, '')
@@ -8181,6 +8182,43 @@ function dirTree(filename) {
             dirTree(filename + '/' + child.name);
         });
     } else return info;
+}
+function isDir(segments) {
+    const p = segments.length === 1 ? [
+        segments[0] || ''
+    ] : segments.length === 2 ? [
+        segments[0] || '',
+        segments[1] || ''
+    ] : segments.length === 3 ? [
+        segments[0] || '',
+        segments[1] || '',
+        segments[2] || ''
+    ] : segments.length === 4 ? [
+        segments[0] || '',
+        segments[1] || '',
+        segments[2] || '',
+        segments[3] || ''
+    ] : segments.length === 5 ? [
+        segments[0] || '',
+        segments[1] || '',
+        segments[2] || '',
+        segments[3] || '',
+        segments[4] || ''
+    ] : [
+        segments[0] || '',
+        segments[1] || '',
+        segments[2] || '',
+        segments[3] || '',
+        segments[4] || '',
+        segments[5] || ''
+    ];
+    return Deno.lstatSync(resolve5(...p)).isDirectory && !Deno.lstatSync(resolve5(...p)).isFile;
+}
+function checkValidFile(info, arr, level) {
+    if (level === 0) return info[arr[0]] && typeof info[arr[0]] !== 'string';
+    if (level === 1) return info[arr[0]] && info[arr[0]][arr[1]] && typeof info[arr[0]][arr[1]] !== 'string';
+    if (level === 2) return info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && typeof info[arr[0]][arr[1]][arr[2]] !== 'string';
+    if (level === 3) return info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && info[arr[0]][arr[1]][arr[2]][arr[3]] && typeof info[arr[0]][arr[1]][arr[2]][arr[3]] !== 'string';
 }
 async function tree() {
     print1('Files written');
@@ -8259,13 +8297,11 @@ async function use(number = 'latest') {
         ];
     })();
     if (!version3 || !exists) throw new Error('Ivalid version number');
-    if (exists) {
-        await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version3}/mod.js`);
-    }
+    if (exists) await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version3}/mod.js`);
     console.log(`Successfully installed sculptr@${version3}`);
 }
 const program = new Command();
-const version1 = '0.0.28';
+const version1 = '0.0.29';
 program.version(version1).description('A command line tool for creating your projects');
 program.command('build <platform> <name>').alias('b').description("Builds scaffolding for a new project. <platform> should be 'next' or 'react'. <name> should be the name of the project, or directory to the project.").option('--s,--skip').option('--scss').option('--sass').option('--css').option('--ts,--typescript').option('--js,--javascript').action((platform1, dir, args)=>{
     if (platform1 === 'n') platform1 = 'next';

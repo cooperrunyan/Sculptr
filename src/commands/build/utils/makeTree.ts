@@ -1,13 +1,11 @@
 import { jsonTree } from 'https://deno.land/x/json_tree/mod.ts';
 
 import config from '../config.ts';
-import type Colors from '../types/Colors.ts';
 
 // @deno-types="https://deno.land/x/chalk_deno@v4.1.1-deno/index.d.ts"
 import { Chalk } from 'https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js';
 const chalk = new Chalk();
 
-import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
 import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
 
 let files: string[] = [];
@@ -24,66 +22,23 @@ export default async function () {
     str[i] = config.prefix + str[i];
   }
 
-  str = str
+  return str
     .join('\n')
     .padEnd(str.length + 10, ' ')
-    .padStart(str.length + 10, ' ');
-
-  const color = function (extension: string, color: Colors): string {
-    const string = str.slice();
-    let newStr = (string as string).split(`.${extension} `).join('.' + chalk[color](extension));
-    newStr = newStr.split(`.${extension}\n`).join('.' + chalk[color](`${extension}\n`));
-    newStr = newStr.split(`.${extension}\r`).join('.' + chalk[color](`${extension}\r`));
-
-    return newStr;
-  };
-
-  str = str
-    .split('|')
-    .join(chalk.grey('|'))
-    .split('│')
-    .join(chalk.grey('│'))
-    .split('└')
-    .join(chalk.grey('└'))
-    .split('─')
-    .join(chalk.grey('─'))
-    .split('├')
-    .join(chalk.grey('├'))
-    .split('\r\n')
-    .join('  \r\n');
-
-  str = color('css', 'cyan');
-  str = color('scss', 'red');
-  str = color('sass', 'red');
-  str = color('tsx', 'blue');
-  str = color('jsx', 'cyan');
-  str = color('json', 'red');
-  str = color('js', 'yellowBright');
-  str = color('html', 'yellow');
-  str = color('d.ts', 'green');
-  str = color('ts', 'blue');
-
-  str = str
-    .split('.js.map ')
-    .join('.' + chalk.yellowBright('js') + '.' + chalk.yellowBright('map'))
-    .split('.js.map\n')
-    .join('.' + chalk.yellowBright('js') + '.' + chalk.yellowBright('map\n'))
-    .split('.js.map\r')
-    .join('.' + chalk.yellowBright('js') + '.' + chalk.yellowBright('map\r'))
-    .split('.d.ts')
-    .join('.' + chalk.green('d.ts'))
-    .split('.d.ts\n')
-    .join('.' + chalk.green('d.ts\n'))
-    .split('.d.ts\r')
-    .join('.' + chalk.green('d.ts\r'))
-    .split('LICENSE')
-    .join(chalk.yellow('LICENSE'))
-    .split('LICENSE\n')
-    .join(chalk.yellow('LICENSE\n'))
-    .split('LICENSE\r')
-    .join(chalk.yellow('LICENSE\r'));
-
-  return str.trim();
+    .padStart(str.length + 10, ' ')
+    .replaceAll(/\├|\||\│|\└|\─/g, (c: string) => chalk.grey(c))
+    .replaceAll(/(?<=\.)css(?=(\W|$))/g, chalk.cyan('css'))
+    .replaceAll(/(?<=\.)scss(?=(\W|$))/g, chalk.red('scss'))
+    .replaceAll(/(?<=\.)sass(?=(\W|$))/g, chalk.red('sass'))
+    .replaceAll(/(?<=\.)tsx(?=(\W|$))/g, chalk.blue('tsx'))
+    .replaceAll(/(?<=\.)d\.ts(?=(\W|$))/g, chalk.green('d.ts'))
+    .replaceAll(/(?<=\.)(?<!d\.)ts(?=(\W|$))/g, chalk.blue('ts'))
+    .replaceAll(/(?<=\.)jsx(?=(\W|$))/g, chalk.cyan('jsx'))
+    .replaceAll(/(?<=\.)js(?=(\W|$))/g, chalk.yellowBright('js'))
+    .replaceAll(/(?<=\.)json(?=(\W|$))/g, chalk.red('json'))
+    .replaceAll(/LICENSE(?=(\W|$))/g, chalk.yellow('LICENSE'))
+    .replaceAll(/(?<=\.)js\.map(?=(\W|$))/g, chalk.yellow('js.map'))
+    .trim();
 }
 
 function makeTree(): string {
@@ -96,40 +51,16 @@ function makeTree(): string {
   files.forEach(file => {
     const arr = file.split('/');
 
-    info[arr[0]] = Deno.lstatSync(path.resolve(arr[0] || '')).isDirectory && !Deno.lstatSync(path.resolve(arr[0] || '')).isFile ? info[arr[0]] || {} : arr[0];
+    info[arr[0]] = isDir([arr[0]]) ? info[arr[0]] || {} : arr[0];
 
-    if (typeof info[arr[0]] !== 'string')
-      info[arr[0]][arr[1]] =
-        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '')).isDirectory && !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '')).isFile
-          ? info[arr[0]][arr[1]] || {}
-          : arr[1];
-
-    if (info[arr[0]] && info[arr[0]][arr[1]] && typeof info[arr[0]][arr[1]] !== 'string')
-      info[arr[0]][arr[1]][arr[2]] =
-        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '')).isDirectory &&
-        !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '')).isFile
-          ? info[arr[0]][arr[1]][arr[2]] || {}
-          : arr[2];
-
-    if (info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && typeof info[arr[0]][arr[1]][arr[2]] !== 'string')
-      info[arr[0]][arr[1]][arr[2]][arr[3]] =
-        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isDirectory &&
-        !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '')).isFile
-          ? info[arr[0]][arr[1]][arr[2]][arr[3]] || {}
-          : arr[3];
-
-    if (
-      info[arr[0]] &&
-      info[arr[0]][arr[1]] &&
-      info[arr[0]][arr[1]][arr[2]] &&
-      info[arr[0]][arr[1]][arr[2]][arr[3]] &&
-      typeof info[arr[0]][arr[1]][arr[2]][arr[3]] !== 'string'
-    )
-      info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] =
-        Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isDirectory &&
-        !Deno.lstatSync(path.resolve(arr[0] || '', arr[1] || '', arr[2] || '', arr[3] || '', arr[4] || '')).isFile
-          ? info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] || {}
-          : arr[4];
+    if (checkValidFile(info, arr, 0)) info[arr[0]][arr[1]] = isDir([arr[0], arr[1]]) ? info[arr[0]][arr[1]] || {} : arr[1];
+    if (checkValidFile(info, arr, 1)) info[arr[0]][arr[1]][arr[2]] = isDir([arr[0], arr[1], arr[2]]) ? info[arr[0]][arr[1]][arr[2]] || {} : arr[2];
+    if (checkValidFile(info, arr, 2))
+      info[arr[0]][arr[1]][arr[2]][arr[3]] = isDir([arr[0], arr[1], arr[2], arr[3]]) ? info[arr[0]][arr[1]][arr[2]][arr[3]] || {} : arr[3];
+    if (checkValidFile(info, arr, 3))
+      info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] = isDir([arr[0], arr[1], arr[2], arr[3], arr[4]])
+        ? info[arr[0]][arr[1]][arr[2]][arr[3]][arr[4]] || {}
+        : arr[4];
   });
 
   const t = jsonTree(info['.'], true, false)
@@ -152,4 +83,34 @@ function dirTree(filename: any) {
       dirTree(filename + '/' + child.name);
     });
   } else return info;
+}
+
+function isDir(segments: string[]): boolean {
+  const p =
+    segments.length === 1
+      ? [segments[0] || '']
+      : segments.length === 2
+      ? [segments[0] || '', segments[1] || '']
+      : segments.length === 3
+      ? [segments[0] || '', segments[1] || '', segments[2] || '']
+      : segments.length === 4
+      ? [segments[0] || '', segments[1] || '', segments[2] || '', segments[3] || '']
+      : segments.length === 5
+      ? [segments[0] || '', segments[1] || '', segments[2] || '', segments[3] || '', segments[4] || '']
+      : [segments[0] || '', segments[1] || '', segments[2] || '', segments[3] || '', segments[4] || '', segments[5] || ''];
+  return Deno.lstatSync(path.resolve(...p)).isDirectory && !Deno.lstatSync(path.resolve(...p)).isFile;
+}
+
+function checkValidFile(info: { [key: string]: any }, arr: string[], level: number) {
+  if (level === 0) return info[arr[0]] && typeof info[arr[0]] !== 'string';
+  if (level === 1) return info[arr[0]] && info[arr[0]][arr[1]] && typeof info[arr[0]][arr[1]] !== 'string';
+  if (level === 2) return info[arr[0]] && info[arr[0]][arr[1]] && info[arr[0]][arr[1]][arr[2]] && typeof info[arr[0]][arr[1]][arr[2]] !== 'string';
+  if (level === 3)
+    return (
+      info[arr[0]] &&
+      info[arr[0]][arr[1]] &&
+      info[arr[0]][arr[1]][arr[2]] &&
+      info[arr[0]][arr[1]][arr[2]][arr[3]] &&
+      typeof info[arr[0]][arr[1]][arr[2]][arr[3]] !== 'string'
+    );
 }

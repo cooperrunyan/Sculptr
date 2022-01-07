@@ -13,11 +13,8 @@ export default async function use(number: string = 'latest') {
 
   if (!version || !exists) throw new Error('Ivalid version number');
 
-  if (exists) {
-    await exec(
-      `deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version}/mod.js`,
-    );
-  }
+  // prettier-ignore
+  if (exists) await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version}/mod.js`);
 
   console.log(`Successfully installed sculptr@${version}`);
 }
