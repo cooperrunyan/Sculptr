@@ -3,7 +3,7 @@ import { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 
 import build from './commands/build/build.ts';
 import add from './commands/add/index.ts';
-import update from './commands/update/index.ts';
+import use from './commands/use/index.ts';
 
 const program = new Command();
 
@@ -49,12 +49,12 @@ program
   .description('Adds a new asset to your project.')
   .action(add);
 
-program.command('update').description('Updates sculptr to the latest version').action(update);
+program.command('use <version>').description('Installs a given version of sculptr').action(use);
 
 program.parse(Deno.args);
 
 export default {
   build,
   add,
-  update,
+  use,
 };
