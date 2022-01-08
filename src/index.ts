@@ -1,4 +1,4 @@
-import { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
+import { Command } from './imports.ts';
 
 import build from './commands/build/build.ts';
 import add from './commands/add/index.ts';
@@ -6,7 +6,7 @@ import use from './commands/use/index.ts';
 
 const program = new Command();
 
-const version = '0.1.2';
+const version = '0.1.3';
 program.version(version).description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')

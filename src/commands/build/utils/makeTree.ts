@@ -1,4 +1,4 @@
-import { JsonTree } from '../../../imports.ts';
+import { jsonTree } from '../../../imports.ts';
 
 import config from '../config.ts';
 
@@ -59,7 +59,7 @@ function makeTree(): string {
         : arr[4];
   });
 
-  const t = JsonTree.jsonTree(info['.'], true, false)
+  const t = jsonTree(info['.'], true, false)
     .replaceAll(/: \w+.\w+.+|: .\w+/gi, '')
     .split('\n')
     .map(value => value.replaceAll(/.+undefined/gi, ''))
