@@ -1,4 +1,4 @@
-import question from 'https://raw.githubusercontent.com/ocpu/question-deno/master/mod.ts';
+import { question } from '../../imports.ts';
 import { scripts, styles } from './types/Configuration.ts';
 
 export default async function ask(
@@ -12,7 +12,7 @@ export default async function ask(
   let style = '';
 
   for (const q of questions) {
-    answer = await question('list', q.message, q.choices);
+    answer = await question.default('list', q.message, q.choices);
     for (let i = 0; i < 10; i++) {
       if (answer?.toLowerCase() === scripts[i]?.toLowerCase()) script = answer.slice().toLowerCase();
       if (answer?.toLowerCase() === styles[i]?.toLowerCase()) style = answer.slice().toLowerCase();

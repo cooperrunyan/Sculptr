@@ -2,9 +2,7 @@ import type Configuration from './types/Configuration.ts';
 import makeScripts from './utils/makeScripts.ts';
 import print from './utils/print.ts';
 
-// @deno-types="https://deno.land/x/chalk_deno@v4.1.1-deno/index.d.ts"
-import { Chalk } from 'https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js';
-const chalk = new Chalk();
+import { chalk } from '../../imports.ts';
 
 export default function complete(options: Configuration, { name, username, scripts }: { name: string; username: string; scripts: {} }) {
   print(`${chalk.yellow('Task completed')}

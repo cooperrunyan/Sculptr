@@ -1,6 +1,4 @@
-import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
-import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
-import * as streams from 'https://deno.land/std/streams/conversion.ts';
+import { fs, path, streams } from '../../../imports.ts';
 
 export default async function (src: string, destination: string) {
   const res = await fetch(src + '.json');

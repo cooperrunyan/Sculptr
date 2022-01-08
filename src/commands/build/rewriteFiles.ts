@@ -1,5 +1,4 @@
-import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
-import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
+import { path } from '../../imports.ts';
 
 import type Configuration from './types/Configuration.ts';
 import exec from './utils/exec.ts';

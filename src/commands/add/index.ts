@@ -1,10 +1,5 @@
-import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
-import * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
+import {path, fs} from '../../imports.ts'
 import { root } from '../../root.ts';
-
-// @deno-types="https://deno.land/x/chalk_deno@v4.1.1-deno/index.d.ts"
-import { Chalk } from 'https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js';
-const chalk = new Chalk();
 
 const files = [
   {

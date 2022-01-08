@@ -1,12 +1,8 @@
-import { jsonTree } from 'https://deno.land/x/json_tree/mod.ts';
+import { JsonTree } from '../../../imports.ts';
 
 import config from '../config.ts';
 
-// @deno-types="https://deno.land/x/chalk_deno@v4.1.1-deno/index.d.ts"
-import { Chalk } from 'https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js';
-const chalk = new Chalk();
-
-import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
+import {path, chalk } from '../../../imports.ts'
 
 let files: string[] = [];
 export default async function () {
@@ -63,7 +59,7 @@ function makeTree(): string {
         : arr[4];
   });
 
-  const t = jsonTree(info['.'], true, false)
+  const t = JsonTree.jsonTree(info['.'], true, false)
     .replaceAll(/: \w+.\w+.+|: .\w+/gi, '')
     .split('\n')
     .map(value => value.replaceAll(/.+undefined/gi, ''))

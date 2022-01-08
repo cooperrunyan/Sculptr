@@ -1,6 +1,4 @@
-// @deno-types="https://deno.land/x/chalk_deno@v4.1.1-deno/index.d.ts"
-import { Chalk } from 'https://deno.land/x/chalk_deno@v4.1.1-deno/source/index.js';
-const chalk = new Chalk();
+import { chalk } from '../../imports.ts';
 
 class Config {
   public static prefix = chalk.grey('sculptr:    ');

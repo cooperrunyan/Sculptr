@@ -1,6 +1,6 @@
 import ask from './ask.ts';
 
-import * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
+import { path } from '../../imports.ts';
 
 import type Args from './types/BuildArgs.ts';
 import type Configuration from './types/Configuration.ts';

@@ -17,11 +17,6 @@
       "label": "Update",
       "type": "shell",
       "command": "deno uninstall sculptr && deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/src/index.ts"
-    },
-    {
-      "label": "Bundle",
-      "type": "shell",
-      "command": "deno bundle --unstable --no-check src/index.ts src/index.ts"
     }
   ]
 }
