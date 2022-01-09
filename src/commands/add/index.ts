@@ -1,8 +1,10 @@
+export { licenses } from './../build/types/Configuration.ts';
 import { licenses } from './../build/types/Configuration.ts';
 import { path, fs } from '../../imports.ts';
 import { root } from '../../root.ts';
+import exec from '../build/utils/exec.ts';
 
-const files = [
+export const files = [
   {
     name: 'tsconfig',
     accessors: ['tsc', 'ts', 'typescript', 'tsconfig'],
@@ -13,56 +15,64 @@ const files = [
   },
 ] as const;
 
-type File = typeof files[number]['name'];
-type InputFile = typeof files[number]['accessors'][number];
+export type File = typeof files[number]['name'];
+export type InputFile = typeof files[number]['accessors'][number];
 
-export default async function add(inputFile: InputFile, { log, strict, react, next, overwrite }: { [key: string]: boolean | undefined }) {
-  // find the file
-  const getFile = (input: string) => {
-    for (const file of files) {
-      for (const accessor of file.accessors) {
-        if (input === accessor) return file.name;
-      }
-    }
-    throw new Error('Invalid file type');
-  };
+// export default async function add(
+//   inputFile: InputFile,
+//   licenseType: typeof licenses[number]['name'],
+//   { log, strict, react, next, overwrite }: { [key: string]: boolean | undefined },
+// ) {
+//   // find the file
+//   const getFile = (input: string) => {
+//     for (const file of files) {
+//       for (const accessor of file.accessors) {
+//         if (input === accessor) return file.name;
+//       }
+//     }
+//     throw new Error('Invalid file type');
+//   };
 
-  const file: File = getFile(inputFile);
-  ////////////////////////////////////////////////////
+//   const file: File = getFile(inputFile);
+//   ////////////////////////////////////////////////////
 
-  if (file === 'tsconfig') await tsconfig(file, { log, strict, react, next, overwrite });
-  else if (file === 'license') await license({ log: log === true, overwrite: overwrite === true });
-}
+//   if (file === 'tsconfig') await tsconfig({ log, strict, react, next, overwrite });
+//   else if (file === 'license') await license(licenseType, { log: log === true });
+// }
 
-async function license({ log, overwrite }: { log: boolean; overwrite: boolean }) {
-  const inputFile = Deno.args[2];
+export default {
+  license,
+  tsconfig,
+};
+
+export async function license(licenseType: typeof licenses[number]['name'], { log }: { log: boolean }) {
+  const inputFile = licenseType;
   const file = (() => {
     for (const licensetype of licenses) {
-      for (const accessor of licensetype.accessors) {
-        if (inputFile === accessor) {
-          return licensetype.name;
-        }
-      }
+      if (licensetype.accessor.test(inputFile)) return licensetype.name;
     }
-    return 'mit';
+    throw new Error('We do not support that license type (check your spelling)');
   })();
-  const fileContent = JSON.parse(Deno.readTextFileSync(`../assets/out/files/license/license.json`))[file];
+  const fileContent = JSON.parse(Deno.readTextFileSync(`../assets/out/files/license/license.json`))
+    [file].replaceAll('[fullname]', await exec('git config --global --get user.name'))
+    .replaceAll('[year]', new Date().getFullYear())
+    .replaceAll('[email]', await exec('git config --global --get user.email'))
+    .replaceAll('[project]', path.resolve('.').split('/').at(-1));
 
-  if ((fs.existsSync(path.resolve('LICENSE')) || log) && !overwrite)
-    return console.log(`${fs.existsSync(path.resolve('LICENSE')) ? "error: File: 'LICENSE' already exists. Here is the new content:\n\n" : ''}${fileContent}`);
+  if (log) return console.log(fileContent);
 
   Deno.writeTextFileSync(path.resolve('LICENSE.txt'), fileContent);
 }
 
-async function tsconfig(file: File, { log, strict, react, next, overwrite }: { [key: string]: boolean | undefined }) {
-  const getDir = (name: string) => {
+export async function tsconfig({ log, strict, react, next, overwrite }: { [key: string]: boolean | undefined }) {
+  const getDir = () => {
     if (!next && !react) return `${root}/assets/out/files/tsconfig/tsconfig-${strict ? 'strict' : 'loose'}.json`;
     if (next && !react) return `${root}/assets/out/files/tsconfig/tsconfig-next--${strict ? 'strict' : 'loose'}.json`;
     if (!next && react) return `${root}/assets/out/files/tsconfig/tsconfig-react--${strict ? 'strict' : 'loose'}.json`;
     throw new Error('You cannot use --next AND --react');
   };
 
-  const dir = getDir(file);
+  const dir = getDir();
   const res = await fetch(dir);
   const fileContent = await res.text();
 

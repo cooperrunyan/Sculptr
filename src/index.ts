@@ -1,12 +1,24 @@
 import { Command } from './imports.ts';
 
 import build from './commands/build/build.ts';
-import add from './commands/add/index.ts';
+import add, { files, InputFile, licenses } from './commands/add/index.ts';
 import use from './commands/use/index.ts';
+
+const tsconfigAccessors = (() => {
+  for (const file of files) {
+    if (file.name === 'tsconfig') return file.accessors;
+  }
+})();
+
+const licenseAccessors = (() => {
+  for (const file of files) {
+    if (file.name === 'license') return file.accessors;
+  }
+})();
 
 const program = new Command();
 
-const version = '0.1.3';
+const version = '0.2.0';
 program.version(version).description('A command line tool for creating your projects');
 program
   .command('build <platform> <name>')
@@ -46,7 +58,28 @@ program
   .option('--next')
   .option('--overwrite')
   .description('Adds a new asset to your project.')
-  .action(add);
+  .action((inputFile: InputFile, licenseType: typeof licenses[number]['name'], options: { [key: string]: boolean | undefined; log: boolean }) => {
+    if (
+      (() => {
+        if (tsconfigAccessors)
+          for (const accessor of tsconfigAccessors) {
+            if (accessor === inputFile) return true;
+          }
+        return false;
+      })()
+    )
+      add.tsconfig(options);
+    else if (
+      (() => {
+        if (licenseAccessors)
+          for (const accessor of licenseAccessors) {
+            if (accessor === inputFile) return true;
+          }
+        return false;
+      })()
+    )
+      add.license(licenseType, options);
+  });
 
 program
   .command('use [version]')

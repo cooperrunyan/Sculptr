@@ -38,7 +38,7 @@ export default async function rewriteFiles(options: Configuration, username: str
   Deno.writeTextFileSync(path.resolve('./LICENSE'), makeLicense(username || 'YOUR NAME'));
 
   // tsconfig
-  await add('tsc', { strict: true, [options.platform]: true, overwrite: true });
+  await add.tsconfig({ strict: true, [options.platform]: true, overwrite: true });
 
   // README.md
   Deno.writeTextFileSync(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`);

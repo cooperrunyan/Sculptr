@@ -6,17 +6,17 @@
     {
       "label": "Build test",
       "type": "shell",
-      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno/src/index.ts build react . --ts --scss --skip"
+      "command": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env ../src/index.ts build react . --ts --scss --skip"
     },
     {
       "label": "Add test",
       "type": "shell",
-      "command": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env ../src/index.ts add license afl"
+      "command": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-read --allow-write --allow-run --allow-env ../src/index.ts add license ncsa"
     },
     {
       "label": "Assets",
       "type": "shell",
-      "command": "cd /Users/cooperrunyan/Documents/Coding/Projects/Sculptr-Deno && deno run --unstable --allow-read --allow-write --allow-env src/generateAssets.ts"
+      "command": "deno run --unstable --allow-read --allow-write --allow-env src/generateAssets.ts"
     },
     {
       "label": "Update",
