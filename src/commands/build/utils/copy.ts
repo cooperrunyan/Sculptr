@@ -1,8 +1,14 @@
-import { fs, path, streams } from '../../../imports.ts';
+import { fs, path } from '../../../imports.ts';
 
 export default async function (src: string, destination: string) {
-  const res = await fetch(src + '.json');
-  const files = await res.json();
+  const res = await (async () => {
+    if (src.startsWith('file:/')) {
+      const p = import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + 'assets/out' + src.split('/assets/out')[1];
+      return await Deno.readTextFile(p);
+    } else return await Deno.readTextFile(src);
+  })();
+
+  const files = JSON.parse(res);
 
   Object.keys(files).forEach(async (key: string) => {
     const segments = key.split('/');
@@ -19,15 +25,10 @@ export default async function (src: string, destination: string) {
     //////////////////////////////////////////
 
     if (/.png$|.ico$|.jpg$|.jpeg$/.test(key)) {
-      const res = await fetch(files[key]);
-      const reader = res.body?.getReader();
-      if (reader) {
-        const source = streams.readerFromStreamReader(reader);
-        const newFile = await Deno.open('.' + key, { create: true, write: true });
-        await streams.copy(source, newFile);
-        newFile.close();
-      }
+      const res = await Deno.readFile(import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + files[key]);
+      await Deno.writeFile('.' + key, res);
     } else {
+      fs.ensureDir('.' + path.resolve('.', key.split('/').slice(0, -1).join('/') || '/'));
       Deno.writeTextFileSync(path.resolve('./' + key), files[key]);
     }
   });

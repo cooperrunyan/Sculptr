@@ -39,7 +39,7 @@ program
   );
 
 program
-  .command('add <file>')
+  .command('add <file> [variant]')
   .option('--log', 'Log the file instead of writing it')
   .option('-S --no-strict', 'Uses stricter typescript settings')
   .option('--react')

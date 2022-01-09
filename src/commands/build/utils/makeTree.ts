@@ -2,7 +2,7 @@ import { jsonTree } from '../../../imports.ts';
 
 import config from '../config.ts';
 
-import {path, chalk } from '../../../imports.ts'
+import { path, chalk } from '../../../imports.ts';
 
 let files: string[] = [];
 export default async function () {
@@ -31,6 +31,7 @@ export default async function () {
     .replaceAll(/(?<=\.)(?<!d\.)ts(?=(\W|$))/g, chalk.blue('ts'))
     .replaceAll(/(?<=\.)jsx(?=(\W|$))/g, chalk.cyan('jsx'))
     .replaceAll(/(?<=\.)js(?=(\W|$))/g, chalk.yellowBright('js'))
+    .replaceAll(/(?<=\.)html(?=(\W|$))/g, chalk.yellow('html'))
     .replaceAll(/(?<=\.)json(?=(\W|$))/g, chalk.red('json'))
     .replaceAll(/LICENSE(?=(\W|$))/g, chalk.yellow('LICENSE'))
     .replaceAll(/(?<=\.)js\.map(?=(\W|$))/g, chalk.yellow('js.map'))

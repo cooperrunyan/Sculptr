@@ -1,7 +1,6 @@
 export * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
 export * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
 export * as question from 'https://raw.githubusercontent.com/ocpu/question-deno/master/mod.ts';
-export * as streams from 'https://deno.land/std/streams/conversion.ts';
 
 export { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 export { jsonTree } from 'https://deno.land/x/json_tree/mod.ts';

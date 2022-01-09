@@ -1,3 +1,4 @@
+import { licenses } from './commands/build/types/Configuration.ts';
 import { root } from './root.ts';
 import { fs, path } from './imports.ts';
 
@@ -27,7 +28,7 @@ function getTemplates() {
             // if it's a file
             const relativePath = pat.split(`${template}/${script}/${style}`)[1];
 
-            const pathToImage = `${root}/assets/src/${template}/${script}/${style}${relativePath}`;
+            const pathToImage = `assets/src/${template}/${script}/${style}${relativePath}`;
 
             if (/.png$|.ico$|.jpg$|.jpeg$/.test(pat)) jsonObj[relativePath] = pathToImage;
             else jsonObj[relativePath] = Deno.readTextFileSync(pat);
@@ -57,5 +58,21 @@ function writeTemplates(files: { [key: string]: string }) {
 
 fs.emptyDirSync('./assets/out');
 writeTemplates(getTemplates());
-fs.copySync('./assets/src/files', 'assets/out/files');
-fs.copySync('./assets/src/files/tsconfig/tsconfig-strict.json', 'assets/out/files/tsconfig/tsconfig.json');
+fs.copySync('./assets/src/files/tsconfig', 'assets/out/files/tsconfig');
+
+function getLicenses() {
+  const info: { [key: string]: string } = {};
+  for (const license of licenses) {
+    const content = Deno.readTextFileSync(`./assets/src/files/license/${license.name}.txt`);
+    info[license.name] = content;
+  }
+  return info;
+}
+
+function writeLicenses(info: {}) {
+  fs.emptyDirSync('./assets/out/files/license');
+  fs.ensureFileSync('./assets/out/files/license/license.json');
+  Deno.writeTextFileSync('./assets/out/files/license/license.json', JSON.stringify(info));
+}
+
+writeLicenses(getLicenses());

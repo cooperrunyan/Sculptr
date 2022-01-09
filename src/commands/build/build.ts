@@ -42,7 +42,7 @@ export default async function build(dir: string, args: Args): Promise<void> {
   /////////////////////////////////////////
   // Copy all the files into the cwd
   print(`Writing files...`);
-  await cpRecursive(`${root}/assets/out/${origin}`, path.resolve('.'));
+  await cpRecursive(`${root}/assets/out/${origin}.json`, path.resolve('.'));
 
   /////////////////////////////////////////
   // Get username from github
@@ -66,6 +66,5 @@ export default async function build(dir: string, args: Args): Promise<void> {
   complete(options, { name, username, scripts });
 
   /////////////////////////////////////////
-
   return;
 }
