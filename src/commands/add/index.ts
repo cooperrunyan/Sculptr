@@ -31,11 +31,13 @@ export async function license(licenseType: typeof licenses[number]['name'], { lo
     }
     throw new Error('We do not support that license type (check your spelling)');
   })();
-  const fileContent = JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/license.json`))
-    [file].replaceAll('[fullname]', await exec('git config --global --get user.name'))
-    .replaceAll('[year]', new Date().getFullYear())
-    .replaceAll('[email]', await exec('git config --global --get user.email'))
-    .replaceAll('[project]', path.resolve('.').split('/').at(-1));
+  const fileContent = root.startsWith('file://')
+    ? JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/license.json`))
+    : (await (await fetch(`${root}/assets/out/files/license/license.json`)).json())[file]
+        .replaceAll('[fullname]', await exec('git config --global --get user.name'))
+        .replaceAll('[year]', new Date().getFullYear())
+        .replaceAll('[email]', await exec('git config --global --get user.email'))
+        .replaceAll('[project]', path.resolve('.').split('/').at(-1));
 
   if (log) return console.log(fileContent);
 

@@ -11,7 +11,7 @@
     {
       "label": "Add test",
       "type": "shell",
-      "command": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-read --allow-write --allow-run --allow-env ../src/index.ts add tsconfig"
+      "command": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-read --allow-write --allow-run --allow-env ../src/index.ts add license mit"
     },
     {
       "label": "Assets",
