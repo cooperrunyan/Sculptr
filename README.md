@@ -137,6 +137,7 @@ Adds an asset to the current working directory
 Accepted values:
 
 - `tsconfig`, `tsc`, or `ts`
+- `license`, `lic`, `license.txt`
 
 ### Flags
 
@@ -149,6 +150,29 @@ Accepted values:
 ```
 $ sculptr add tsconfig
 ```
+
+#### License
+With license you can add any github-supported license type. For example:
+
+```bash
+$ sculptr add license wtfpl
+```
+```bash
+$ sculptr add license isc
+```
+```bash
+$ sculptr add lic mit
+```
+```bash
+$ sculptr add lic 'Academic Free License'
+```
+```bash
+$ sculptr add license 'GNU General Public License 3'
+```
+
+###### Note: `lic` and `license` are interchangeable
+###### Note: You can use the technical name for a license `Academic Free License v3.0` or `afl-3.0`. 
+###### Note: License type detection is based off of RegEx, so small typos generally can be overlooked.
 
 ## Update/Use/Install
 
