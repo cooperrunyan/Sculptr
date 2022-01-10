@@ -95,6 +95,6 @@ program.parse(Deno.args);
 
 export default {
   build,
-  add,
   use,
+  add,
 };
