@@ -3,6 +3,7 @@ import { Command } from './imports.ts';
 import build from './commands/build/build.ts';
 import add, { files, InputFile, licenses } from './commands/add/index.ts';
 import use from './commands/use/index.ts';
+import run from './commands/run/index.ts';
 
 const tsconfigAccessors = (() => {
   for (const file of files) {
@@ -80,6 +81,8 @@ program
     )
       add.license(licenseType, options);
   });
+
+program.command('run <script>').description('Run a script from "sculptr.json" (similar to "npm run")').action(run);
 
 program
   .command('use [version]')

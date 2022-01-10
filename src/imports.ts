@@ -2,6 +2,9 @@ export * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
 export * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
 export * as question from 'https://raw.githubusercontent.com/ocpu/question-deno/master/mod.ts';
 
+export { readLines } from 'https://deno.land/std@0.104.0/io/mod.ts';
+export { writeAll } from 'https://deno.land/std@0.104.0/io/util.ts';
+
 export { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
 export { jsonTree } from 'https://deno.land/x/json_tree/mod.ts';
 

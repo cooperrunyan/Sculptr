@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-write --allow-read --allow-run --allow-env ../src/index.ts build react . --ts --scss --skip",
+    "add": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable --allow-read --allow-write --allow-run --allow-env ../src/index.ts add license afl"
+  }
+}
