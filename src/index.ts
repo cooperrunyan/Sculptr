@@ -10,7 +10,7 @@ import addFunc from './commands/add/index.ts';
 
 const program = new cliffy.Command();
 
-const version = '0.2.3';
+const version = '0.2.5';
 program.version(version).description('A command line tool for creating your projects');
 
 program.command('build <platform> <name>', build);
