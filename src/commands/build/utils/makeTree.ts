@@ -1,8 +1,8 @@
-import { jsonTree } from '../../../imports.ts';
+import { jsonTree } from '../../../deps.ts';
 
 import config from '../config.ts';
 
-import { path, chalk } from '../../../imports.ts';
+import { path, chalk } from '../../../deps.ts';
 
 let files: string[] = [];
 export default async function () {

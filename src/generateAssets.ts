@@ -1,6 +1,6 @@
 import { licenses } from './commands/build/types/Configuration.ts';
 import { root } from './root.ts';
-import { fs, path } from './imports.ts';
+import { fs, path } from './deps.ts';
 
 const templates = ['next-template', 'react-template'];
 const scripts = ['typescript', 'javascript'];

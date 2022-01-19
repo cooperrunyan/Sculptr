@@ -1,4 +1,4 @@
-import { chalk } from '../../imports.ts';
+import { chalk } from '../../deps.ts';
 
 class Config {
   public static prefix = chalk.grey('sculptr:    ');

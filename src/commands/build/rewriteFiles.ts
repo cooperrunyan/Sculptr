@@ -1,11 +1,12 @@
-import { path } from '../../imports.ts';
+import { path } from '../../deps.ts';
 
 import type Configuration from './types/Configuration.ts';
 import exec from './utils/exec.ts';
-import makeLicense from './utils/makeLicense.ts';
 import add from '../add/index.ts';
 
 export default async function rewriteFiles(options: Configuration, username: string) {
+  const promises: Promise<void>[] = [];
+
   /////////////////////////////////////////
   // package.json
   const oldPackage = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));
@@ -29,19 +30,19 @@ export default async function rewriteFiles(options: Configuration, username: str
 
   const projectName = newPackageFile.name;
 
-  Deno.writeTextFileSync(path.resolve('./package.json'), JSON.stringify(newPackageFile, null, 2));
+  promises.push(Deno.writeTextFile(path.resolve('./package.json'), JSON.stringify(newPackageFile, null, 2)));
 
   // gitignore
-  Deno.writeTextFileSync(path.resolve('./.gitignore'), 'node_modules\n');
+  promises.push(Deno.writeTextFile(path.resolve('./.gitignore'), 'node_modules\n'));
 
   // license
-  Deno.writeTextFileSync(path.resolve('./LICENSE'), makeLicense(username || 'YOUR NAME'));
+  promises.push(add.license({ log: false, noOutput: true }, 'mit'));
 
   // tsconfig
-  await add.tsconfig({ strict: true, [options.platform]: true, overwrite: true });
+  promises.push(add.tsconfig({ strict: true, [options.platform]: true, overwrite: true, noOutput: true }));
 
   // README.md
-  Deno.writeTextFileSync(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`);
+  promises.push(Deno.writeTextFile(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`));
 
   // homepage
   const extension = options.script === 'typescript' ? '.tsx' : '.jsx';
@@ -53,7 +54,9 @@ export default async function rewriteFiles(options: Configuration, username: str
     .replaceAll('PLATFORM', options.platform)
     .replaceAll('STYLE', options.style);
 
-  Deno.writeTextFileSync(hpDir, script);
+  promises.push(Deno.writeTextFile(hpDir, script));
+
+  await Promise.all(promises);
 
   return newPackageFile;
   /////////////////////////////////////////

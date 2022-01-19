@@ -5,7 +5,7 @@ export * as question from 'https://raw.githubusercontent.com/ocpu/question-deno/
 export { readLines } from 'https://deno.land/std@0.104.0/io/mod.ts';
 export { writeAll } from 'https://deno.land/std@0.104.0/io/util.ts';
 
-export { Command } from 'https://deno.land/x/cmd@v1.2.0/mod.ts';
+export * as cliffy from 'https://deno.land/x/cliffy@v0.20.1/mod.ts';
 export { jsonTree } from 'https://deno.land/x/json_tree/mod.ts';
 
 //////////////// Export an instance of chalk

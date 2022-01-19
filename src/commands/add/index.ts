@@ -1,6 +1,6 @@
 export { licenses } from './../build/types/Configuration.ts';
 import { licenses } from './../build/types/Configuration.ts';
-import { path, fs } from '../../imports.ts';
+import { path, fs } from '../../deps.ts';
 import { root } from '../../root.ts';
 import exec from '../build/utils/exec.ts';
 
@@ -17,13 +17,17 @@ export const files = [
 
 export type File = typeof files[number]['name'];
 export type InputFile = typeof files[number]['accessors'][number];
+export type LicenseType = typeof licenses[number]['name'];
 
 export default {
   license,
   tsconfig,
 };
 
-export async function license(licenseType: typeof licenses[number]['name'], { log }: { log: boolean }) {
+export async function license(
+  { log, noOutput, name, year, email, project }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string },
+  licenseType: LicenseType,
+) {
   const inputFile = licenseType;
   const file = (() => {
     for (const licensetype of licenses) {
@@ -32,19 +36,25 @@ export async function license(licenseType: typeof licenses[number]['name'], { lo
     throw new Error('We do not support that license type (check your spelling)');
   })();
   const fileContent = root.startsWith('file://')
-    ? JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/license.json`))
-    : (await (await fetch(`${root}/assets/out/files/license/license.json`)).json())[file]
-        .replaceAll('[fullname]', await exec('git config --global --get user.name'))
-        .replaceAll('[year]', new Date().getFullYear())
-        .replaceAll('[email]', await exec('git config --global --get user.email'))
-        .replaceAll('[project]', path.resolve('.').split('/').at(-1));
+    ? (JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/license.json`))[file] as any)
+        .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
+        .replaceAll('[year]', year || new Date().getFullYear())
+        .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
+        .replaceAll('[project]', project || path.resolve('.').split('/').at(-1))
+    : await ((await fetch(`${root}/assets/out/files/license/license.json`)) as any)
+        .json()
+        [file].replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
+        .replaceAll('[year]', year || new Date().getFullYear())
+        .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
+        .replaceAll('[project]', project || path.resolve('.').split('/').at(-1));
 
   if (log) return console.log(fileContent);
 
   Deno.writeTextFileSync(path.resolve('LICENSE.txt'), fileContent);
+  if (!noOutput) console.log('Successfully wrote LICENSE.txt');
 }
 
-export async function tsconfig({ log, strict, react, next, overwrite }: { [key: string]: boolean | undefined }) {
+export async function tsconfig({ log, strict, react, next, overwrite, noOutput }: { [key: string]: boolean | undefined }) {
   const getDir = () => {
     if (!next && !react) return `${root.replace('file://', '')}/assets/out/files/tsconfig/tsconfig-${strict ? 'strict' : 'loose'}.json`;
     if (next && !react) return `${root.replace('file://', '')}/assets/out/files/tsconfig/tsconfig-next--${strict ? 'strict' : 'loose'}.json`;
@@ -61,4 +71,5 @@ export async function tsconfig({ log, strict, react, next, overwrite }: { [key: 
     );
 
   Deno.writeTextFileSync(path.resolve('tsconfig.json'), fileContent);
+  if (!noOutput) console.log('Successfully wrote tsconfig.json');
 }

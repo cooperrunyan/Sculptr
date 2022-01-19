@@ -1,4 +1,4 @@
-import { fs, path } from '../../imports.ts';
+import { fs, path } from '../../deps.ts';
 
 export default function changeCWD(dir: string) {
   /////////////////////////////////////////

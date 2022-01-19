@@ -1,6 +1,6 @@
 import ask from './ask.ts';
 
-import { path } from '../../imports.ts';
+import { path } from '../../deps.ts';
 
 import type Args from './types/BuildArgs.ts';
 import type Configuration from './types/Configuration.ts';
@@ -42,16 +42,20 @@ export default async function build(dir: string, args: Args): Promise<void> {
   /////////////////////////////////////////
   // Copy all the files into the cwd
   print(`Writing files...`);
-  await cpRecursive(`${root}/assets/out/${origin}.json`, path.resolve('.'));
+  const cpFilePromise = cpRecursive(`${root}/assets/out/${origin}.json`);
 
   /////////////////////////////////////////
   // Get username from github
-  const username = (await exec('git config --global --get user.name').catch(err => console.error(err))) as string;
+  const username = (await exec('git config --global --get user.name').catch(err => console.error(err))) || 'Your-name';
 
   /////////////////////////////////////////
   // Rewrite files
-  const packageJSON = await rewriteFiles(options, username as string);
+  await cpFilePromise;
+  const packageJSON = await rewriteFiles(options, username);
   const { scripts, name }: { name: string; scripts: {} } = packageJSON;
+
+  const messagePromise = complete(options, { name, username, scripts });
+  // Start building the completion message
 
   /////////////////////////////////////////
   // Make a tree of the project
@@ -63,7 +67,7 @@ export default async function build(dir: string, args: Args): Promise<void> {
 
   /////////////////////////////////////////
   // Completion message
-  complete(options, { name, username, scripts });
+  print(await messagePromise);
 
   /////////////////////////////////////////
   return;

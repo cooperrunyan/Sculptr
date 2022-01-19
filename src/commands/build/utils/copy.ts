@@ -1,6 +1,8 @@
-import { fs, path } from '../../../imports.ts';
+import { fs, path } from '../../../deps.ts';
 
-export default async function (src: string, destination: string) {
+export default async function (src: string) {
+  const promises: Promise<void>[] = [];
+
   const res = await (async () => {
     if (src.startsWith('file:/')) {
       const p = import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + 'assets/out' + src.split('/assets/out')[1];
@@ -26,10 +28,14 @@ export default async function (src: string, destination: string) {
 
     if (/.png$|.ico$|.jpg$|.jpeg$/.test(key)) {
       const res = await Deno.readFile(import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + files[key]);
-      await Deno.writeFile('.' + key, res);
+      const promise = Deno.writeFile('.' + key, res);
+      promises.push(promise);
     } else {
       fs.ensureDir('.' + path.resolve('.', key.split('/').slice(0, -1).join('/') || '/'));
-      Deno.writeTextFileSync(path.resolve('./' + key), files[key]);
+      const promise = Deno.writeTextFile(path.resolve('./' + key), files[key]);
+      promises.push(promise);
     }
   });
+
+  return Promise.all(promises);
 }

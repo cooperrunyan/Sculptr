@@ -1,4 +1,4 @@
-import { question } from '../../imports.ts';
+import { question } from '../../deps.ts';
 import { scripts, styles } from './types/Configuration.ts';
 
 export default async function ask(
