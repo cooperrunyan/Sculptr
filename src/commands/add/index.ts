@@ -6,6 +6,7 @@ import exec from '../build/utils/exec.ts';
 import { getLicense } from './getLicense.ts';
 
 import helpLicense from './helpLicense.ts';
+import getFileJson from './getFileJson.ts';
 
 export const files = [
   {
@@ -44,18 +45,11 @@ export async function license(
 
   const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
 
-  const fileContent = root.startsWith('file://')
-    ? (JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/license.json`))[file] as any)
-        .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
-        .replaceAll('[year]', year || new Date().getFullYear())
-        .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
-        .replaceAll('[project]', project || path.resolve('.').split('/').at(-1))
-    : await ((await fetch(`${root}/assets/out/files/license/license.json`)) as any)
-        .json()
-        [file].replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
-        .replaceAll('[year]', year || new Date().getFullYear())
-        .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
-        .replaceAll('[project]', project || path.resolve('.').split('/').at(-1));
+  const fileContent = JSON.stringify(getFileJson(file))
+    .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
+    .replaceAll('[year]', year || new Date().getFullYear() + '')
+    .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
+    .replaceAll('[project]', project || path.resolve('.').split('/').at(-1) + '');
 
   if (log) return console.log(fileContent);
 
