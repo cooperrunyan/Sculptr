@@ -76,3 +76,19 @@ function writeLicenses(info: {}) {
 }
 
 writeLicenses(getLicenses());
+
+function getLicenseDescriptions() {
+  const info: { [key: string]: string } = {};
+  for (const license of licenses) {
+    const content = JSON.parse(Deno.readTextFileSync(`./assets/src/files/license/descriptions/${license.name}.json`));
+    info[license.name] = content;
+  }
+  return info;
+}
+
+function writeLicenseDescriptions(licenses: { [key: string]: string }) {
+  fs.ensureFileSync('./assets/out/files/license/descriptions.json');
+  Deno.writeTextFileSync('./assets/out/files/license/descriptions.json', JSON.stringify(licenses));
+}
+
+writeLicenseDescriptions(getLicenses());
