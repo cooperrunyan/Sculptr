@@ -3,6 +3,9 @@ import { licenses } from './../build/types/Configuration.ts';
 import { path, fs } from '../../deps.ts';
 import { root } from '../../root.ts';
 import exec from '../build/utils/exec.ts';
+import { getLicense } from './getLicense.ts';
+
+import helpLicense from './helpLicense.ts';
 
 export const files = [
   {
@@ -25,16 +28,22 @@ export default {
 };
 
 export async function license(
-  { log, noOutput, name, year, email, project }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string },
-  licenseType: LicenseType,
+  {
+    log,
+    noOutput,
+    name,
+    year,
+    email,
+    project,
+    licenseHelp,
+  }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string; licenseHelp?: string },
+  license: LicenseType,
 ) {
-  const inputFile = licenseType;
-  const file = (() => {
-    for (const licensetype of licenses) {
-      if (licensetype.accessor.test(inputFile)) return licensetype.name;
-    }
-    throw new Error('We do not support that license type (check your spelling)');
-  })();
+  if (licenseHelp) return helpLicense(licenseHelp);
+  const file = getLicense(license);
+
+  const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
+
   const fileContent = root.startsWith('file://')
     ? (JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/license.json`))[file] as any)
         .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
@@ -50,8 +59,8 @@ export async function license(
 
   if (log) return console.log(fileContent);
 
-  Deno.writeTextFileSync(path.resolve('LICENSE.txt'), fileContent);
-  if (!noOutput) console.log('Successfully wrote LICENSE.txt');
+  Deno.writeTextFileSync(path.resolve(fileName), fileContent);
+  if (!noOutput) console.log(`Successfully wrote ${fileName}`);
 }
 
 export async function tsconfig({ log, strict, react, next, overwrite, noOutput }: { [key: string]: boolean | undefined }) {

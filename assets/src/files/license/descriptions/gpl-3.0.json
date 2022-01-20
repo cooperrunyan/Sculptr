@@ -1,0 +1,23 @@
+{
+  "description": "Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.",
+  "permissions": [
+    { "name": "Commercial Use", "description": "License material and derivatives can be used for commercial use" },
+    { "name": "Distribution", "description": "License material may be distributed" },
+    { "name": "Modification", "description": "License material may be modified" },
+    { "name": "Patent Use", "description": "License grants an express grant of patent rights from contributors" },
+    { "name": "Private Use", "description": "License material may be modified and used in private" }
+  ],
+  "conditions": [
+    { "name": "Disclose Source", "description": "Source code must be distributed when license material is published" },
+    { "name": "License and Copyright Notice", "description": "A copy of the license and copyright notice must be included with the license material" },
+    {
+      "name": "Same License",
+      "description": "Modifications must be released under the same license when distributing the licensed material. In some cases a similar or related license may be used"
+    },
+    { "name": "State Changes", "description": "Changes made to the licensed material must be documented" }
+  ],
+  "limitations": [
+    { "name": "Liability", "description": "License includes a limitation of liability" },
+    { "name": "Warranty", "description": "This license does not provide any warranty" }
+  ]
+}

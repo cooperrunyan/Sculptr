@@ -1,0 +1,16 @@
+{
+  "description": "A permissive license similar to the BSD 2-Clause License, but with a 3rd clause that prohibits others from using the name of the project or its contributors to promote derived products without written consent.\n\nThe Modified or New BSD (or BSD 3-clause) license is the same as BSD-2, but with an additional clause prohibiting the names of the authors from being used to endorse or promote products relating to the software.",
+  "permissions": [
+    { "name": "Commercial Use", "description": "License material and derivatives can be used for commercial use" },
+    { "name": "Distribution", "description": "License material may be distributed" },
+    { "name": "Modification", "description": "License material may be modified" },
+    { "name": "Private Use", "description": "License material may be modified and used in private" }
+  ],
+  "conditions": [
+    { "name": "License and Copyright Notice", "description": "A copy of the license and copyright notice must be included with the license material" }
+  ],
+  "limitations": [
+    { "name": "Liability", "description": "License includes a limitation of liability" },
+    { "name": "Warranty", "description": "This license does not provide any warranty" }
+  ]
+}
