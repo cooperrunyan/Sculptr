@@ -45,7 +45,7 @@ export async function license(
 
   const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
 
-  const fileContent = JSON.stringify(getFileJson(file))
+  const fileContent = JSON.stringify(getFileJson('license.json', file))
     .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
     .replaceAll('[year]', year || new Date().getFullYear() + '')
     .replaceAll('[email]', email || (await exec('git config --global --get user.email')))

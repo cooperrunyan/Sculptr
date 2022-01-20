@@ -91,4 +91,4 @@ function writeLicenseDescriptions(licenses: { [key: string]: string }) {
   Deno.writeTextFileSync('./assets/out/files/license/descriptions.json', JSON.stringify(licenses));
 }
 
-writeLicenseDescriptions(getLicenses());
+writeLicenseDescriptions(getLicenseDescriptions());
