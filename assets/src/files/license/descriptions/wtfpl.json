@@ -1,4 +1,7 @@
 {
+  "name": "Boost Software License 1.0",
+  "id": "bsl-1.0",
+  "year": 2003,
   "description": "This license is rude, but is an entirely legitimate alternative to the public domain. You can change the name and terms of the license to suit you.",
   "permissions": ["commercial-use", "distribution", "modification", "sublicense"],
   "conditions": ["rename"],

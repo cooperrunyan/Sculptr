@@ -1,4 +1,7 @@
 {
+  "name": "Boost Software License 1.0",
+  "id": "bsl-1.0",
+  "year": 2003,
   "description": "A succinct license that allows for much freedom in distribution of software. All you have to do is include the license, as stated in the full text.",
   "permissions": ["commercial-use", "distribution", "modification"],
   "conditions": ["disclose-source", "include-notice", "license-and-copyright-notice", "same-license", "state-changes", "network-use-is-distribution"],

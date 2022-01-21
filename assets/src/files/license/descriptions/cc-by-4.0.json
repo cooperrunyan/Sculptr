@@ -1,4 +1,7 @@
 {
+  "name": "Boost Software License 1.0",
+  "id": "bsl-1.0",
+  "year": 2003,
   "description": "Allows to do what they want except modifying.\nYou must give credit to the original author of the work, including a URI or hyperlink to the work, this Public license and a copyright notice.\nAuthor can request to remove any attribution given information.\nYou may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.\nDisclaimer of warranties is optional.\nIf separately undertaken, shared material must retain a notice to Disclaimer of warranties.\nOtherwise, Disclaimer of warranties, is taken by default, providing the work as-is and as-available.\nLiable follows the same rules as Disclaimer of warranties, providing, by default, protection from defamation for the creator.\nThe licensor cannot revoke these freedoms as long as you follow the license terms.",
   "permissions": ["commercial-use", "distribution"],
   "conditions": ["disclose-source", "give-credit", "state-changes"],

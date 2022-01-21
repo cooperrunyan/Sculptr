@@ -1,4 +1,7 @@
 {
+  "name": "Boost Software License 1.0",
+  "id": "bsl-1.0",
+  "year": 2003,
   "description": "A very short, BSD-style license, used specifically for PostgreSQL.",
   "permissions": ["commercial-use", "distribution", "modification"],
   "conditions": ["license-and-copyright-notice"],

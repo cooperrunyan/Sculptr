@@ -1,4 +1,7 @@
 {
+  "name": "Boost Software License 1.0",
+  "id": "bsl-1.0",
+  "year": 2003,
   "description": "OFL is used by almost all libre fonts. Selling fonts by themselves is not allowed, but bundling with software or selling font design services is allowed. Font names must usually be changed before making any modifications. Document embedding is allowed.",
   "permissions": ["commercial-use", "distribution", "modification"],
   "conditions": ["disclose-source", "license-and-copyright-notice", "same-license", "state-changes", "network-use-is-distribution"],
