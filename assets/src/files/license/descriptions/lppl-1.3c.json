@@ -1,21 +1,6 @@
 {
   "description": "A rather unique, non-copyleft license that defines a mediated way to transfer stewardship of software that is not currently maintained to a new user. You have to label changed parts of the software as such.",
-  "permissions": [
-    { "name": "Commercial Use", "description": "License material and derivatives can be used for commercial use" },
-    { "name": "Distribution", "description": "License material may be distributed" },
-    { "name": "Modification", "description": "License material may be modified" },
-    { "name": "Sublicense", "description": "Describes the ability for you to grant/extend a license to the software" }
-  ],
-  "conditions": [
-    { "name": "Disclose Source", "description": "Source code must be distributed when license material is published" },
-    { "name": "License and Copyright Notice", "description": "A copy of the license and copyright notice must be included with the license material" },
-    { "name": "State Changes", "description": "Changes made to the licensed material must be documented" }
-  ],
-  "limitations": [
-    {
-      "name": "Trademark use",
-      "description": "This license explicitly states that it does NOT grant trademark rights, even though licenses without such a statement probably do not grant any implicit trademark rights."
-    },
-    { "name": "Liability", "description": "License includes a limitation of liability" }
-  ]
+  "permissions": ["commercial-use", "distribution", "modification", "sublicense"],
+  "conditions": ["disclose-source", "license-and-copyright-notice", "state-changes"],
+  "limitations": ["liability", "trademark-use"]
 }

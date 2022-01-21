@@ -1,5 +1,4 @@
 import { licenses } from './commands/build/types/Configuration.ts';
-import { root } from './root.ts';
 import { fs, path } from './deps.ts';
 
 const templates = ['next-template', 'react-template'];
@@ -74,19 +73,48 @@ function writeLicenses(info: {}) {
   fs.ensureFileSync('./assets/out/files/license/license.json');
   Deno.writeTextFileSync('./assets/out/files/license/license.json', JSON.stringify(info));
 }
-
 writeLicenses(getLicenses());
 
+type LicenseFileContent = {
+  description: string;
+  permissions: string[];
+  conditions: string[];
+  limitations: string[];
+};
+
+type Descriptions = {
+  permissions: { [key: string]: string };
+  limitations: { [key: string]: string };
+  conditions: { [key: string]: string };
+};
+
 function getLicenseDescriptions() {
-  const info: { [key: string]: string } = {};
+  const descriptions: Descriptions = JSON.parse(Deno.readTextFileSync('./src/commands/add/descriptions.json'));
+  const info: { [key: string]: LicenseFileContent } = {};
   for (const license of licenses) {
-    const content = JSON.parse(Deno.readTextFileSync(`./assets/src/files/license/descriptions/${license.name}.json`));
+    const content: LicenseFileContent = JSON.parse(Deno.readTextFileSync(`./assets/src/files/license/descriptions/${license.name}.json`));
+
+    for (const permission of content.permissions) {
+      const index = content.permissions.indexOf(permission);
+      if (descriptions.permissions[permission]) content.permissions[index] = descriptions.permissions[permission];
+    }
+
+    for (const limitation of content.limitations) {
+      const index = content.limitations.indexOf(limitation);
+      if (descriptions.limitations[limitation]) content.limitations[index] = descriptions.limitations[limitation];
+    }
+
+    for (const condition of content.conditions) {
+      const index = content.conditions.indexOf(condition);
+      if (descriptions.conditions[condition]) content.conditions[index] = descriptions.conditions[condition];
+    }
+
     info[license.name] = content;
   }
   return info;
 }
 
-function writeLicenseDescriptions(licenses: { [key: string]: string }) {
+function writeLicenseDescriptions(licenses: { [key: string]: LicenseFileContent }) {
   fs.ensureFileSync('./assets/out/files/license/descriptions.json');
   Deno.writeTextFileSync('./assets/out/files/license/descriptions.json', JSON.stringify(licenses));
 }

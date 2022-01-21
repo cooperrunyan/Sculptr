@@ -1,11 +1,6 @@
 {
   "description": "This license is rude, but is an entirely legitimate alternative to the public domain. You can change the name and terms of the license to suit you.",
-  "permissions": [
-    { "name": "Commercial Use", "description": "License material and derivatives can be used for commercial use" },
-    { "name": "Distribution", "description": "License material may be distributed" },
-    { "name": "Sublicense", "description": "Describes the ability for you to grant/extend a license to the software" },
-    { "name": "Modification", "description": "License material may be modified" }
-  ],
-  "conditions": [{ "name": "Rename", "description": "Must rename the license if you change its terms" }],
+  "permissions": ["commercial-use", "distribution", "modification", "sublicense"],
+  "conditions": ["rename"],
   "limitations": []
 }

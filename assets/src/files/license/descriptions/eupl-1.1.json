@@ -1,14 +1,6 @@
 {
   "description": "European Union Public Licence (EUPL) - a free software licence created by European Union.",
-  "permissions": [
-    { "name": "Commercial Use", "description": "License material and derivatives can be used for commercial use" },
-    { "name": "Distribution", "description": "License material may be distributed" },
-    { "name": "Private Use", "description": "License material may be modified and used in private" }
-  ],
-  "conditions": [
-    { "name": "Disclose Source", "description": "Source code must be distributed when license material is published" },
-    { "name": "License and Copyright Notice", "description": "A copy of the license and copyright notice must be included with the license material" },
-    { "name": "State Changes", "description": "Changes made to the licensed material must be documented" }
-  ],
-  "limitations": [{ "name": "Liability", "description": "License includes a limitation of liability" }]
+  "permissions": ["commercial-use", "distribution", "private-use"],
+  "conditions": ["disclose-source", "license-and-copyright-notice", "state-changes"],
+  "limitations": ["liability"]
 }

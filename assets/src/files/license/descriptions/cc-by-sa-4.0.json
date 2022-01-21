@@ -1,15 +1,6 @@
 {
   "description": "Creative Commons Attribution-ShareAlike license in International version 4, that allows to do what they want with your work as long as they share the work under the same licence.\nYou must give credit to the original author of the work, including a URI or hyperlink to the work, this Public license and a copyright notice.\nAuthor can request to remove any attribution given information.\nYou may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.\nDisclaimer of warranties is optional.\nIf separately undertaken, shared material must retain a notice to Disclaimer of warranties.\nOtherwise, Disclaimer of warranties, is taken by default, providing the work as-is and as-available.\nLiable follows the same rules as Disclaimer of warranties, providing, by default, protection from defamation for the creator.\nThe licensor cannot revoke these freedoms as long as you follow the license terms.",
-  "permissions": [
-    { "name": "Commercial Use", "description": "License material and derivatives can be used for commercial use" },
-    { "name": "Modification", "description": "License material may be modified" },
-    { "name": "Distribution", "description": "License material may be distributed" }
-  ],
-  "conditions": [
-    { "name": "Include Copyright", "description": ")riginal copyright must be retained" },
-    { "name": "Give Credit", "description": "Explicit credit to the author is required when distributing the software." },
-
-    { "name": "State Changes", "description": "Changes made to the licensed material must be documented" }
-  ],
-  "limitations": [{ "name": "Sublicense", "description": "No ability to grant/extend a license to the software" }]
+  "permissions": ["commercial-use", "distribution", "modification"],
+  "conditions": ["give-credit", "license-and-copyright-notice", "state-changes"],
+  "limitations": ["sublicense"]
 }

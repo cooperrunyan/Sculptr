@@ -12,7 +12,6 @@ export const licenses = [
   },
   { name: 'artistic-2.0', accessor: /artistic(\s|-|)(license(\s|)|)/gi },
   { name: 'bsl-1.0', accessor: /bsl|Boost(\s|-|)(license|software(\s|)|)(license|)/gi },
-  { name: 'bsd-3-clause-clear', accessor: /bsd(.|-|)3(.+|)clear/gi },
   { name: 'bsd-2-clause', accessor: /bsd(.|-|)2/gi },
   { name: 'bsd-3-clause', accessor: /bsd(.|-|)3/gi },
   { name: 'cc0-1.0', accessor: /(cc|(Cre\w+(\s|)(Com\w+|)))(0|)(\s|-|)(\w+|)(\s|-|)(v|)1/gi },
