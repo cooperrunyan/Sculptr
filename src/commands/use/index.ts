@@ -14,11 +14,17 @@ export default async function use(number: string = 'latest') {
 
   if (!exists) throw new Error('Ivalid version number');
 
-  // prettier-ignore
-  if (exists) await exec(`deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version}/src/index.ts`);
+  if (exists) {
+    await exec(
+      `deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version}/src/index.ts`,
+    );
+    return console.log(`Successfully installed sculptr@${version}`);
+  }
 
-  if (!version)
+  if (!version) {
     await exec('deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/src/index.ts');
+    return console.log(`Successfully installed sculptr@${version}`);
+  }
 
   console.log(`Successfully installed sculptr@${version}`);
 }
