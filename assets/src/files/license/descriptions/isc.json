@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "Internet Systems Consortium",
+  "id": "ISC",
+  "year": 2007,
   "description": "PA short, permissive software license. Basically, you can do whatever you want as long as you include the original copyright. This license is functionally identical to the MIT/Expat and the Simplified BSD licenses, discarding some language that was made unnecessary by the Berne convention.",
   "permissions": ["commercial-use", "distribution", "modification"],
   "conditions": ["license-and-copyright-notice"],

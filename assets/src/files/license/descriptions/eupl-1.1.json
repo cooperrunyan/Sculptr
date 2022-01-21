@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "European Union Public License 1.1",
+  "id": "EUPL-1.1",
+  "year": 2008,
   "description": "European Union Public Licence (EUPL) - a free software licence created by European Union.",
   "permissions": ["commercial-use", "distribution", "private-use"],
   "conditions": ["disclose-source", "license-and-copyright-notice", "state-changes"],

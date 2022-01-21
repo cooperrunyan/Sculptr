@@ -1,6 +1,6 @@
 {
   "name": "Simplified BSD License",
-  "id": "bsd-2-clause",
+  "id": "BSD-2-clause",
   "year": 1999,
   "description": "A permissive license that comes in two variants, the BSD 2-Clause and BSD 3-Clause. Both have very minute differences to the MIT license.\n\nThe Simplified BSD (or BSD 2-clause) license is the simplest BSD license. A licensee of BSD-licensed software can:\n - Use, copy and distribute the unmodified source or binary forms of the licensed program\n - Use, copy and distribute modified source or binary forms of the licensed program, provided that all distributed copies are accompanied by the license",
   "permissions": ["commercial-use", "distribution", "modification", "private-use"],

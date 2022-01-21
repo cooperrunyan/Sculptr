@@ -1,7 +1,6 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "Unlicense",
+  "year": 2010,
   "description": "A license with no conditions whatsoever which dedicates works to the public domain. Unlicensed works, modifications, and larger works may be distributed under different terms and without source code.",
   "permissions": ["commercial-use", "distribution", "modification", "private-use"],
   "conditions": [],

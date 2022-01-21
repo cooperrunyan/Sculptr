@@ -9,7 +9,7 @@ licenseHelp.description('Get descriptions of license usage and types').action(he
 
 command
   .command('license [type]')
-  .option('--license-help,--cmd-h [license]', 'Display a description of a given license type')
+  .option('--describe [license]', 'Display a description of a given license type')
   .option('--log', 'Log the file instead of writing it')
   .option('--no-output', "Don't write a completion message")
   .option('--name [name]', 'Manually set the name to be written instead of using Github username')

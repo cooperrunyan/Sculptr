@@ -1,6 +1,6 @@
 {
   "name": "Artistic License 2.0",
-  "id": "artistic-2.0",
+  "id": "Artistic-2.0",
   "year": 2010,
   "description": "This is a license for software packages with the intent of giving the original copyright holder some measure of control over his software while still remaining open source. It is flexible and allows you to distribute or sell modified versions as long as you maintain access to the original version and publish modifications.",
   "permissions": ["commercial-use", "distribution", "modification", "sublicense", "private-use"],

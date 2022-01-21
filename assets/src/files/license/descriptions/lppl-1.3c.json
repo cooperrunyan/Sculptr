@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "LaTeX Project Public License 1.3",
+  "id": "LPPL-1.3c",
+  "year": 2008,
   "description": "A rather unique, non-copyleft license that defines a mediated way to transfer stewardship of software that is not currently maintained to a new user. You have to label changed parts of the software as such.",
   "permissions": ["commercial-use", "distribution", "modification", "sublicense"],
   "conditions": ["disclose-source", "license-and-copyright-notice", "state-changes"],

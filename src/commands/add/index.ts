@@ -36,25 +36,29 @@ export async function license(
     year,
     email,
     project,
-    licenseHelp,
-  }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string; licenseHelp?: string },
+    describe,
+  }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string; describe?: string },
   license: LicenseType,
 ) {
-  if (licenseHelp) return helpLicense(licenseHelp);
-  const file = getLicense(license);
+  try {
+    if (describe) return helpLicense(describe);
+    const file = getLicense(license);
 
-  const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
+    const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
 
-  const fileContent = JSON.stringify(getFileJson('license.json', file))
-    .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
-    .replaceAll('[year]', year || new Date().getFullYear() + '')
-    .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
-    .replaceAll('[project]', project || path.resolve('.').split('/').at(-1) + '');
+    const fileContent = ((await getFileJson('license.json', file)) as string)
+      .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
+      .replaceAll('[year]', year || new Date().getFullYear() + '')
+      .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
+      .replaceAll('[project]', project || path.resolve('.').split('/').at(-1) + '');
 
-  if (log) return console.log(fileContent);
+    if (log) return console.log(fileContent);
 
-  Deno.writeTextFileSync(path.resolve(fileName), fileContent);
-  if (!noOutput) console.log(`Successfully wrote ${fileName}`);
+    Deno.writeTextFileSync(path.resolve(fileName), fileContent);
+    if (!noOutput) console.log(`Successfully wrote ${fileName}`);
+  } catch (err) {
+    console.log(err.message);
+  }
 }
 
 export async function tsconfig({ log, strict, react, next, overwrite, noOutput }: { [key: string]: boolean | undefined }) {

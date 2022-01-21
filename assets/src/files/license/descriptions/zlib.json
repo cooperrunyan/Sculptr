@@ -1,7 +1,6 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "zlib",
+  "year": 1995,
   "description": "This license is used for the zlib library and some other open-source libraries/packages. It is very short and very permissive. It requires you to change the name of modified software and contains a sentence removing liability from the authors of the software.",
   "permissions": ["commercial-use", "distribution", "modification"],
   "conditions": ["license-and-copyright-notice", "rename"],

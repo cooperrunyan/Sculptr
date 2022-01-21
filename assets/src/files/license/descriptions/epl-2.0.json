@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "Eclipse Public License 2.0",
+  "id": "EPL-2.0",
+  "year": 2017,
   "description": "This commercially-friendly copyleft license provides the ability to commercially license binaries; a modern royalty-free patent license grant; and the ability for linked works to use other licenses, including commercial ones.",
   "permissions": ["commercial-use", "distribution", "modification", "patent-use", "private-use"],
   "conditions": ["disclose-source", "license-and-copyright-notice", "same-license"],

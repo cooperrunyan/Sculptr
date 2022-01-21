@@ -1,6 +1,6 @@
 {
   "name": "Academic Free License v3.0",
-  "id": "afl-3.0",
+  "id": "AFL-3.0",
   "year": 2002,
   "description": "Gives you a copyright and allows for a patent on the software so long as you include the original software, any of its copyrights or trademarks and a note saying that you modified it. Created by the same author as the Open Software License, this license is nearly identical but, unlike the Open Software License, not copyleft as it doesn't force derivative works to use the same license.",
   "permissions": ["commercial-use", "distribution", "modification", "sublicense"],

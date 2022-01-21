@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "Open Software License 3.0",
+  "id": "OSL-3.0",
+  "year": 2005,
   "description": "A copyleft license incompatible with GNU GPL.",
   "permissions": ["commercial-use", "distribution", "modification", "sublicense"],
   "conditions": ["disclose-source", "license-and-copyright-notice"],

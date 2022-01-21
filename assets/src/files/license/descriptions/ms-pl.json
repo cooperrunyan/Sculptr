@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "Microsoft Public License",
+  "id": "MS-PL",
+  "year": 2001,
   "description": "You can do anything you want with the software, so long as you include this license and existing copyrights. You can only use this with compatible licenses.",
   "permissions": ["commercial-use", "distribution", "modification", "sublicense"],
   "conditions": ["license-and-copyright-notice"],

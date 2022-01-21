@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "Educational Community License 2.0",
+  "id": "ECL-2.0",
+  "year": 2007,
   "description": "A modified version of the Apache 2.0 license, changing the scope of the patent grant in section 3 to be specific to the needs of the education communities using this license.\nSpecifically, the following text is appended to the end of Section 3 of the Apache 2.0 license:\n\nAny patent license granted hereby with respect to contributions by an individual employed by an institution or organization is limited to patent claims where the individual that is the author of the Work is also the inventor of the patent claims licensed, and where the organization or institution has the right to grant such license under applicable grant and research funding agreements. No other express or implied licenses are granted.",
   "permissions": ["commercial-use", "distribution", "modification", "private-use", "warranty", "sublicense"],
   "conditions": ["include-notice", "license-and-copyright-notice", "state-changes"],

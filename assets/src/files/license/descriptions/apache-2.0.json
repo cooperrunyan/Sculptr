@@ -1,6 +1,6 @@
 {
   "name": "Apache License 2.0",
-  "id": "apache-2.0",
+  "id": "Apache-2.0",
   "year": 2004,
   "description": "A permissive license whose main conditions require preservation of copyright and license notices. Contributors provide an express grant of patent rights. Licensed works, modifications, and larger works may be distributed under different terms and without source code.",
   "permissions": ["commercial-use", "distribution", "modification", "patent-use", "private-use"],

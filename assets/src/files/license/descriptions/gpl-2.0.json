@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "General Publuc License 2.0",
+  "id": "GPL-2.0",
+  "year": 1991,
   "description": "The GNU GPL is the most widely used free software license and has a strong copyleft requirement. When distributing derived works, the source code of the work must be made available under the same license. There are multiple variants of the GNU GPL, each with different requirements.",
   "permissions": ["commercial-use", "distribution", "modification", "private-use"],
   "conditions": ["disclose-source", "license-and-copyright-notice", "same-license", "state-changes"],

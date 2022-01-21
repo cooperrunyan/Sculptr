@@ -1,67 +1,108 @@
-import getFileJson from './getFileJson.ts';
+import getFileJson, { getAll } from './getFileJson.ts';
 import { getLicense } from './getLicense.ts';
+import { color } from '../../deps.ts';
 
-const example = {
-  description:
-    "Gives you a copyright and allows for a patent on the software so long as you include the original software, any of its copyrights or trademarks and a note saying that you modified it. Created by the same author as the Open Software License, this license is nearly identical but, unlike the Open Software License, not copyleft as it doesn't force derivative works to use the same license.",
-  permissions: [
-    { name: 'Commercial Use', description: 'License material and derivatives can be used for commercial use' },
-    { name: 'Distribution', description: 'License material may be distributed' },
-    { name: 'Modification', description: 'License material may be modified' },
-    { name: 'Sublicense', description: 'The ability for you to grant/extend a license to the software.' },
-  ],
-  conditions: [
-    { name: 'Disclose Source', description: 'Source code must be distributed when license material is published' },
-    { name: 'License and Copyright Notice', description: 'A copy of the license and copyright notice must be included with the license material' },
-    {
-      name: 'Same License',
-      description:
-        'Modifications must be released under the same license when distributing the licensed material. In some cases a similar or related license may be used',
-    },
-    { name: 'State Changes', description: 'Changes made to the licensed material must be documented' },
-  ],
-  limitations: [
-    { name: 'Liability', description: 'License includes a limitation of liability' },
-    {
-      name: 'Trademark use',
-      description: 'Does NOT grant trademark rights.',
-    },
-  ],
-};
+const colors = {
+  blue: { r: 74, g: 165, b: 240 },
+  pink: { r: 193, g: 98, b: 222 },
+  orange: { r: 208, g: 142, b: 82 },
+  red: { r: 255, g: 97, b: 110 },
+} as const;
 
-export default async function licenseHelp(license?: string) {
-  if (license === undefined) {
+const blue = (str: string) => color.rgb24(str, colors.blue);
+const pink = (str: string) => color.rgb24(str, colors.pink);
+const orange = (str: string) => color.rgb24(str, colors.orange);
+const red = (str: string) => color.rgb24(str, colors.red);
+const bold = (str: string) => color.bold(str);
+
+export default async function licenseHelp(license: string | true) {
+  if (license === true) {
     // Show all license descriptions
-  } else {
-    license = getLicense(license);
-    // Gets the exact license that the user queries for
-    const file = await getFileJson('descriptions.json', license);
-    console.log(file);
-    // prettier-ignore
+    const doc = await getAll('descriptions.json');
+    const string = Object.keys(doc)
+      .map(key => `    ${red('-')} ${doc[key].name} ${doc[key].id ? pink('(') + blue(doc[key].id) + pink(') ') : ''}${bold(doc[key].year + '')}`)
+      .join('\n');
     const str = `
-  Academic Free License 3.0 (afl-3.0)
+  ${bold('Supported Licenses:')}
 
-  Description:
+${string}
+    `;
+    console.log(str);
+  } else {
+    try {
+      license = getLicense(license);
+      // Gets the exact license that the user queries for
+      const file = (await getFileJson('descriptions.json', license)) as {
+        [key: string]: any;
+      };
 
-    Gives you a copyright and allows for a patent on the software so long as you include the original software, any of its copyrights or trademarks and a note saying that you modified it. Created by the same author as the Open Software License, this license is nearly identical but, unlike the Open Software License, not copyleft as it doesn't force derivative works to use the same license.
+      let maxPermissionLength = 0;
+      let maxLimitationLength = 0;
+      let maxConditionLength = 0;
 
-  Permissions:
+      file.permissions.forEach((permission: { [key: string]: string }) => {
+        maxPermissionLength = Math.max(permission.label.length, maxPermissionLength);
+      });
 
-    Commercial use  - License material and derivatives can be used for commercial use
-    Distribution    - License material may be distributed
-    Modification    - License material may be modified
-    Sublicense      - The ability for you to grant/extend a license to the software
+      file.limitations.forEach((limitation: { [key: string]: string }) => {
+        maxLimitationLength = Math.max(limitation.label.length, maxLimitationLength);
+      });
 
-  Limitations:
+      file.conditions.forEach((condition: { [key: string]: string }) => {
+        maxConditionLength = Math.max(condition.label.length, maxConditionLength);
+      });
 
-    Liability      - License includes a limitation of liability
-    Trademark use  - Does NOT grant trademark rights
+      const str = `
+  ${bold(file.name)} ${file.id ? orange('(') + pink(file.id) + orange(')') : ''}
+  Created in ${orange(file.year + '')}
 
-  Conditions:
+  ${bold(`Description:`)}
 
-    Disclose source               - Source code must be distributed when license material is published
-    License and Copyright Notice  - A copy of the license and copyright notice must be included with the license material
-    Same License                  - Modifications must be released under the same license upon distributon
-    State Change                  - Changes made to the licensed material must be documented`;
+    ${file.description.split('\n').join(`\n     `)}
+
+  ${bold(`Permissions:`)}
+
+${
+  file.permissions
+    .map(
+      (permission: { [key: string]: string }) =>
+        `    ${blue(permission.label.padEnd(maxPermissionLength, ' '))}  ${red(`-`)} ${permission.detail
+          .split('\n')
+          .join(`\n      ${''.padEnd(maxPermissionLength, ' ')}`)}`,
+    )
+    .join('\n') || '    None'
+}
+
+  ${bold(`Limitations:`)}
+
+${
+  file.limitations
+    .map(
+      (limitation: { [key: string]: string }) =>
+        `    ${blue(limitation.label.padEnd(maxLimitationLength, ' '))}  ${red(`-`)} ${limitation.detail
+          .split('\n')
+          .join(`\n      ${''.padEnd(maxLimitationLength, ' ')}`)}`,
+    )
+    .join('\n') || '    None'
+}
+
+  ${bold(`Conditions:`)}
+
+${
+  file.conditions
+    .map(
+      (condition: { [key: string]: string }) =>
+        `    ${blue(condition.label.padEnd(maxConditionLength, ' '))}  ${red(`-`)} ${condition.detail
+          .split('\n')
+          .join(`\n      ${''.padEnd(maxConditionLength, ' ')}`)}`,
+    )
+    .join('\n') || '    None'
+}
+`;
+
+      console.log(str);
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 }

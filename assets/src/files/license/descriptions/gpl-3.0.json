@@ -1,7 +1,7 @@
 {
-  "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
-  "year": 2003,
+  "name": "General Public License 3.0",
+  "id": "GPL-3.0",
+  "year": 2007,
   "description": "Permissions of this strong copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights.",
   "permissions": ["commercial-use", "distribution", "modification", "patent-use", "private-use"],
   "conditions": ["disclose-source", "license-and-copyright-notice", "same-license", "state-changes"],

@@ -1,6 +1,6 @@
 {
   "name": "Boost Software License 1.0",
-  "id": "bsl-1.0",
+  "id": "BSL-1.0",
   "year": 2003,
   "description": "A simple permissive license only requiring preservation of copyright and license notices for source (and not binary) distribution. Licensed works, modifications, and larger works may be distributed under different terms and without source code.",
   "permissions": ["commercial-use", "distribution", "modification", "private-use"],
