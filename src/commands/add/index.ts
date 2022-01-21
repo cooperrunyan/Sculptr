@@ -37,11 +37,11 @@ export async function license(
     email,
     project,
     describe,
-  }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string; describe?: string },
+  }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string; describe?: boolean },
   license: LicenseType,
 ) {
   try {
-    if (describe) return helpLicense(describe);
+    if (describe) return helpLicense(license);
     const file = getLicense(license);
 
     const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';

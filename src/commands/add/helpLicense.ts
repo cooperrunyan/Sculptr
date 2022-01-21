@@ -15,8 +15,8 @@ const orange = (str: string) => color.rgb24(str, colors.orange);
 const red = (str: string) => color.rgb24(str, colors.red);
 const bold = (str: string) => color.bold(str);
 
-export default async function licenseHelp(license: string | true) {
-  if (license === true) {
+export default async function licenseHelp(license: string) {
+  if (!license) {
     // Show all license descriptions
     const doc = await getAll('descriptions.json');
     const string = Object.keys(doc)
