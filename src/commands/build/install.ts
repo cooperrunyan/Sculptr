@@ -13,7 +13,7 @@ export default async function install(args: BuildArgs) {
     await clearLastLine();
     await Deno.stdout.write(enc(`  Installing dependencies (${((Date.now() - time) / 1000).toFixed(1)}s)\n`));
   }
-  const int = setInterval(refresh, 100);
+  const int = setInterval(refresh, 10);
 
   await exec('npm i');
   clearInterval(int);

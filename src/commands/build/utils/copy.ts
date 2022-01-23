@@ -29,7 +29,7 @@ export default async function (src: string) {
   await Deno.stdout.write(enc(`  Writing files 0/0 (0.000s)\n`));
 
   let time = Date.now();
-  const int = setInterval(refresh, 100);
+  const int = setInterval(refresh, 10);
 
   let i = 0;
 

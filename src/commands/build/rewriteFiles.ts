@@ -19,7 +19,7 @@ export async function writePackage(options: Configuration, username: string) {
     await Deno.stdout.write(enc(`  Writing package.json (${((Date.now() - time) / 1000).toFixed(1)}s)\n`));
   }
 
-  const int = setInterval(refresh, 100);
+  const int = setInterval(refresh, 10);
 
   const oldPackage = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));
   Deno.removeSync(path.resolve('./package.json'));
