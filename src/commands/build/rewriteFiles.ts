@@ -1,14 +1,26 @@
-import { path } from '../../deps.ts';
+import { chalk, path } from '../../deps.ts';
 
 import type Configuration from './types/Configuration.ts';
 import exec from './utils/exec.ts';
 import add from '../add/index.ts';
 
-export default async function rewriteFiles(options: Configuration, username: string) {
-  const promises: Promise<void>[] = [];
+const enc = (str: string) => new TextEncoder().encode(str);
 
-  /////////////////////////////////////////
-  // package.json
+const clearLastLine = () => {
+  return Deno.stdout.write(enc('\x1b[A\x1b[K')); // clears from cursor to line end
+};
+
+export async function writePackage(options: Configuration, username: string) {
+  let time = Date.now();
+  Deno.stdout.writeSync(enc('  Writing package.json (0.00s)\n'));
+
+  async function refresh() {
+    await clearLastLine();
+    await Deno.stdout.write(enc(`  Writing package.json (${((Date.now() - time) / 1000).toFixed(1)}s)\n`));
+  }
+
+  const int = setInterval(refresh, 100);
+
   const oldPackage = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));
   Deno.removeSync(path.resolve('./package.json'));
   await exec('npm init -y');
@@ -28,10 +40,16 @@ export default async function rewriteFiles(options: Configuration, username: str
       development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],
     };
 
-  const projectName = newPackageFile.name;
+  await Deno.writeTextFile(path.resolve('./package.json'), JSON.stringify(newPackageFile, null, 2));
+  clearInterval(int);
 
-  promises.push(Deno.writeTextFile(path.resolve('./package.json'), JSON.stringify(newPackageFile, null, 2)));
+  await clearLastLine();
+  await Deno.stdout.write(enc(chalk.blue(`  Wrote package.json (${((Date.now() - time) / 1000).toFixed(3)}s)\n`)));
+  return newPackageFile;
+}
 
+export default async function rewriteFiles(options: Configuration, username: string, projectName: string, newPackageFile: object) {
+  const promises: Promise<void>[] = [];
   // gitignore
   promises.push(Deno.writeTextFile(path.resolve('./.gitignore'), 'node_modules\n'));
 

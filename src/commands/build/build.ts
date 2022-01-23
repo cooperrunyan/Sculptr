@@ -5,14 +5,14 @@ import { path } from '../../deps.ts';
 import type Args from './types/BuildArgs.ts';
 import type Configuration from './types/Configuration.ts';
 
-import cpRecursive from './utils/copy.ts';
+import copy, { packageJson } from './utils/copy.ts';
 import exec from './utils/exec.ts';
 import print from './utils/print.ts';
 
 import changeCWD from './changeCWD.ts';
 import createOptions from './createOptions.ts';
 import getQuestions from './questions.ts';
-import rewriteFiles from './rewriteFiles.ts';
+import rewriteFiles, { writePackage } from './rewriteFiles.ts';
 import tree from './tree.ts';
 import install from './install.ts';
 import complete from './complete.ts';
@@ -23,6 +23,7 @@ export default async function build(dir: string, args: Args): Promise<void> {
   /////////////////////////////////////////
   // Change working directory
   changeCWD(dir);
+  console.log(' ');
 
   /////////////////////////////////////////
   // Change args to a complete options object of type Configuration
@@ -40,35 +41,20 @@ export default async function build(dir: string, args: Args): Promise<void> {
   const origin = `${options.platform}-template/${options.script}/${options.style}`;
 
   /////////////////////////////////////////
-  // Copy all the files into the cwd
-  print(`Writing files...`);
-  const cpFilePromise = cpRecursive(`${root}/assets/out/${origin}.json`);
-
-  /////////////////////////////////////////
   // Get username from github
   const username = (await exec('git config --global --get user.name').catch(err => console.error(err))) || 'Your-name';
 
   /////////////////////////////////////////
-  // Rewrite files
-  await cpFilePromise;
-  const packageJSON = await rewriteFiles(options, username);
-  const { scripts, name }: { name: string; scripts: {} } = packageJSON;
+  // Copy all the files into the cwd
 
-  const messagePromise = complete(options, { name, username, scripts });
-  // Start building the completion message
+  await packageJson(`${root}/assets/out/${origin}.json`);
+  const packageJSON = await writePackage(options, username);
 
-  /////////////////////////////////////////
-  // Make a tree of the project
-  await tree();
+  await copy(`${root}/assets/out/${origin}.json`);
 
-  /////////////////////////////////////////
-  // Install dependencies
+  await rewriteFiles(options, username, packageJSON.name, packageJSON);
+
   await install(args);
 
-  /////////////////////////////////////////
-  // Completion message
-  print(await messagePromise);
-
-  /////////////////////////////////////////
-  return;
+  return console.log('  ');
 }

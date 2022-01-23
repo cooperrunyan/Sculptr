@@ -2,6 +2,8 @@ export * as path from 'https://deno.land/std@0.120.0/path/mod.ts';
 export * as fs from 'https://deno.land/std@0.95.0/fs/mod.ts';
 export * as question from 'https://raw.githubusercontent.com/ocpu/question-deno/master/mod.ts';
 
+export { default as Progress } from 'https://deno.land/x/progress@v1.1.4/mod.ts';
+
 export { readLines } from 'https://deno.land/std@0.104.0/io/mod.ts';
 export { writeAll } from 'https://deno.land/std@0.104.0/io/util.ts';
 
