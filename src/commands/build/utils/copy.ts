@@ -1,3 +1,4 @@
+import { readerFromStreamReader } from 'https://deno.land/std@0.104.0/io/streams.ts';
 import { chalk, fs, path } from '../../../deps.ts';
 
 const enc = (str: string) => new TextEncoder().encode(str);
@@ -49,8 +50,22 @@ export async function copy(src: string) {
     i++;
 
     if (/.png$|.ico$|.jpg$|.jpeg$/.test(key)) {
-      const res = await Deno.readFile(import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + files[key]);
-      Deno.writeFileSync('.' + key, res);
+      const res = await (async () => {
+        if (!src.startsWith('http')) {
+          return await Deno.readFile(import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + files[key]);
+        } else {
+          const rsp = await fetch(src);
+          const rdr = rsp.body?.getReader();
+          if (rdr) {
+            const r = readerFromStreamReader(rdr);
+            const f = await Deno.open('.' + key, { create: true, write: true });
+            await Deno.copy(r, f);
+            f.close();
+          }
+        }
+      })();
+
+      Deno.writeFileSync('.' + key, res as Uint8Array);
     } else {
       fs.ensureDir('.' + path.resolve('.', key.split('/').slice(0, -1).join('/') || '/'));
       Deno.writeTextFileSync(path.resolve('./' + key), files[key]);
