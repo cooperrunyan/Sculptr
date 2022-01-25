@@ -28,12 +28,13 @@ export async function copy(src: string) {
   await Deno.stdout.write(enc(`  Writing files 0/0 (0.000s)\n`));
 
   let time = Date.now();
+  let total = 0;
   const int = setInterval(refresh, 10);
 
   let i = 0;
 
   const files = await getFiles(src);
-  let total = Object.keys(files).length - 1;
+  total = Object.keys(files).length - 1;
 
   async function refresh() {
     await clearLastLine();
