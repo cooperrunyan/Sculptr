@@ -9,7 +9,7 @@ const clearLastLine = () => {
 
 async function getFiles(src: string) {
   const res = await (async () => {
-    if (src.startsWith('file:/')) {
+    if (!src.startsWith('http')) {
       const p = import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + 'assets/out' + src.split('/assets/out')[1];
       return JSON.parse(await Deno.readTextFile(p));
     } else return await (await fetch(src)).json();
