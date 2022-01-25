@@ -1,9 +1,8 @@
 import { chalk } from '../../deps.ts';
-import type BuildArgs from './types/BuildArgs.ts';
-import exec from './utils/exec.ts';
+import { exec } from './utils/exec.ts';
 
-export default async function install(args: BuildArgs) {
-  if (args.booleanOptions.skip === true) return;
+export async function install(shouldInstall: boolean) {
+  if (!shouldInstall) return;
 
   let time = Date.now();
 

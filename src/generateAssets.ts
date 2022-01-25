@@ -1,9 +1,6 @@
-import { licenses } from './commands/build/types/Configuration.ts';
 import { fs, path } from './deps.ts';
-
-const templates = ['next-template', 'react-template'];
-const scripts = ['typescript', 'javascript'];
-const styles = ['scss', 'sass', 'css'];
+import { templateFolderNames as templates, scripts, styles, licenses } from './support/index.ts';
+import { LicenseContent, LicenseDescriptions } from './types/index.ts';
 
 function getTemplates() {
   const allFiles: any = {};
@@ -75,24 +72,11 @@ function writeLicenses(info: {}) {
 }
 writeLicenses(getLicenses());
 
-type LicenseFileContent = {
-  description: string;
-  permissions: string[];
-  conditions: string[];
-  limitations: string[];
-};
-
-type Descriptions = {
-  permissions: { [key: string]: string };
-  limitations: { [key: string]: string };
-  conditions: { [key: string]: string };
-};
-
 function getLicenseDescriptions() {
-  const descriptions: Descriptions = JSON.parse(Deno.readTextFileSync('./src/commands/add/descriptions.json'));
-  const info: { [key: string]: LicenseFileContent } = {};
+  const descriptions: LicenseDescriptions = JSON.parse(Deno.readTextFileSync('./src/commands/add/descriptions.json'));
+  const info: { [key: string]: LicenseContent } = {};
   for (const license of licenses) {
-    const content: LicenseFileContent = JSON.parse(Deno.readTextFileSync(`./assets/src/files/license/descriptions/${license.name}.json`));
+    const content: LicenseContent = JSON.parse(Deno.readTextFileSync(`./assets/src/files/license/descriptions/${license.name}.json`));
 
     for (const permission of content.permissions) {
       const index = content.permissions.indexOf(permission);
@@ -114,7 +98,7 @@ function getLicenseDescriptions() {
   return info;
 }
 
-function writeLicenseDescriptions(licenses: { [key: string]: LicenseFileContent }) {
+function writeLicenseDescriptions(licenses: { [key: string]: LicenseContent }) {
   fs.ensureFileSync('./assets/out/files/license/descriptions.json');
   Deno.writeTextFileSync('./assets/out/files/license/descriptions.json', JSON.stringify(licenses));
 }

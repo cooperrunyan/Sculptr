@@ -51,52 +51,10 @@ In this demo, SCSS is selected. It will then output the following
 ### Step 2:
 
 ```bash
-sculptr:    Writing files...
-sculptr:    Files written
-sculptr:
-sculptr:    Making an visual representation of the folder tree...
-sculptr:    Tree created:
-sculptr:
-sculptr:    ├─ LICENSE
-sculptr:    ├─ README.md
-sculptr:    ├─ public
-sculptr:    │  ├─ favicon.ico
-sculptr:    │  ├─ index.html
-sculptr:    │  ├─ logo512.png
-sculptr:    │  ├─ manifest.json
-sculptr:    │  ├─ robots.txt
-sculptr:    │  └─ logo192.png
-sculptr:    ├─ .gitignore
-sculptr:    ├─ package.json
-sculptr:    ├─ tsconfig.json
-sculptr:    └─ src
-sculptr:       ├─ index.tsx
-sculptr:       ├─ App.tsx
-sculptr:       ├─ style
-sculptr:       │  ├─ base.scss
-sculptr:       │  ├─ abstracts
-sculptr:       │  │  ├─ _variables.scss
-sculptr:       │  │  ├─ _utils.scss
-sculptr:       │  │  └─ _mixins.scss
-sculptr:       │  ├─ base
-sculptr:       │  │  └─ _reset.scss
-sculptr:       │  └─ app.scss
-sculptr:       ├─ react-app-env.d.ts
-sculptr:
-sculptr:    Installing dependencies...
-sculptr:    Dependencies installed
-sculptr:
-sculptr:    Task completed
-sculptr:      Project Name:  'my-new-app'
-sculptr:      Username:      'YOUR_GITHUB_USERNAME'
-sculptr:
-sculptr:    Built a new project with: React, Typescript, Scss
-sculptr:
-sculptr:    Prewritten scripts (in ./package.json):
-sculptr:      start:  'react-scripts start',
-sculptr:      build:  'react-scripts build',
-sculptr:      test:   'react-scripts test',
-sculptr:      eject:  'react-scripts eject'
+
+  Wrote package.json (0.164s)
+  Wrote files 17/17 (0.005s)
+  Installed dependencies (26.91s)
 
 ```
 
@@ -152,26 +110,33 @@ $ sculptr add tsconfig
 ```
 
 #### License
+
 With license you can add any github-supported license type. For example:
 
 ```bash
 $ sculptr add license wtfpl
 ```
+
 ```bash
 $ sculptr add license isc
 ```
+
 ```bash
 $ sculptr add lic mit
 ```
+
 ```bash
 $ sculptr add lic 'Academic Free License'
 ```
+
 ```bash
 $ sculptr add license 'GNU General Public License 3'
 ```
 
 ###### Note: `lic` and `license` are interchangeable
-###### Note: You can use the technical name for a license `Academic Free License v3.0` or `afl-3.0`. 
+
+###### Note: You can use the technical name for a license `Academic Free License v3.0` or `afl-3.0`.
+
 ###### Note: License type detection is based off of RegEx, so small typos generally can be overlooked.
 
 ## Update/Use/Install

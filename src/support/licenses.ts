@@ -1,6 +1,3 @@
-export const scripts = ['javascript', 'typescript'] as const;
-export const styles = ['scss', 'sass', 'css'] as const;
-export const platforms = ['next', 'react'] as const;
 export const licenses = [
   {
     name: 'afl-3.0',
@@ -39,13 +36,3 @@ export const licenses = [
   { name: 'unlicense', accessor: /unlicense/gi },
   { name: 'zlib', accessor: /zlib/gi },
 ] as const;
-
-type Configuration = {
-  script: typeof scripts[number] | 'ASK';
-  style: typeof styles[number] | 'ASK';
-  platform: typeof platforms[number];
-  license?: typeof licenses[number];
-  strict: boolean;
-};
-
-export default Configuration;

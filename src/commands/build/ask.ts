@@ -1,12 +1,15 @@
 import { question } from '../../deps.ts';
-import { scripts, styles } from './types/Configuration.ts';
+import { scripts, styles } from '../../support/index.ts';
 
-export default async function ask(
+export async function ask(
   questions: {
     message: string;
     choices: string[];
   }[],
-) {
+): Promise<{
+  script: string | undefined;
+  style: string | undefined;
+}> {
   let answer: undefined | string = '';
   let script = '';
   let style = '';

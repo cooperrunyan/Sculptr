@@ -1,8 +1,8 @@
-import { licenses } from './../build/types/Configuration.ts';
+import { licenses } from '../../support/index.ts';
 
-export function getLicense(license: string) {
-  for (const licensetype of licenses) {
-    if (licensetype.accessor.test(license)) return licensetype.name;
+export function getLicense(str: string) {
+  for (const license of licenses) {
+    if (license.accessor.test(str)) return license.name;
   }
   throw new Error('We do not support that license type (check your spelling)');
 }

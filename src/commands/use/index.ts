@@ -1,13 +1,13 @@
-import exec from '../build/utils/exec.ts';
+import { exec } from '../build/utils/exec.ts';
 
-export default async function use({ number = 'latest' }: { number: string }) {
+export async function use({ version = 'latest' }: { version: string }) {
   const response = await fetch('https://api.github.com/repos/cooperrunyan/Sculptr/releases');
   const releases = await response.json();
-  const [exists, version] = (() => {
+  const [exists, actualVersion] = (() => {
     for (const release of releases) {
-      if (release.tag_name === number) return [true, number];
+      if (release.tag_name === version) return [true, version];
     }
-    if (number === 'latest' || number === '@latest') return [true, releases[0].tag_name];
+    if (version === 'latest' || version === '@latest') return [true, releases[0].tag_name];
     return [false];
   })();
 
@@ -15,15 +15,15 @@ export default async function use({ number = 'latest' }: { number: string }) {
 
   if (exists) {
     await exec(
-      `deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${version}/src/index.ts`,
+      `deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr@${actualVersion}/src/index.ts`,
     );
-    return console.log(`Successfully installed sculptr@${version}`);
+    return console.log(`Successfully installed sculptr@${actualVersion}`);
   }
 
-  if (!version) {
+  if (!actualVersion) {
     await exec('deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/src/index.ts');
-    return console.log(`Successfully installed sculptr@${version}`);
+    return console.log(`Successfully installed sculptr@${actualVersion}`);
   }
 
-  console.log(`Successfully installed sculptr@${version}`);
+  console.log(`Successfully installed sculptr@${actualVersion}`);
 }

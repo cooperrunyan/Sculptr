@@ -1,6 +1,6 @@
 import { fs, path } from '../../deps.ts';
 
-export default function changeCWD(dir: string) {
+export function changeCWD(dir: string) {
   /////////////////////////////////////////
   // Change working directory
   fs.ensureDirSync(path.resolve(dir));

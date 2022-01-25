@@ -1,6 +1,6 @@
 import { root } from '../../root.ts';
 
-export default async function getFileJson(originFile: string, file: string): Promise<string | { [key: string]: any }> {
+export async function getFileJson(originFile: string, file: string): Promise<string | { [key: string]: any }> {
   return root.startsWith('file://')
     ? JSON.parse(Deno.readTextFileSync(`${root.replace('file://', '')}/assets/out/files/license/${originFile}`))[file]
     : await (

@@ -1,22 +1,20 @@
-import type Configuration from './types/Configuration.ts';
+import { IncompleteConfig } from '../../types/index.ts';
 
-export default function getQuestions(options: Configuration) {
-  const newOpts: Configuration = options;
-
-  const scriptQuestion = {
-    message: 'Do you want to build it in Javascript or Typescript?',
-    choices: ['Typescript', 'Javascript'],
-  };
-
-  const styleQuestion = {
-    message: 'Do you want use SCSS, Sass, or CSS?',
-    choices: ['SCSS', 'Sass', 'CSS'],
-  };
-
+export function getQuestions(options: IncompleteConfig) {
   const questions = [];
 
-  if (newOpts.script === 'ASK') questions.push(scriptQuestion);
-  if (newOpts.style === 'ASK') questions.push(styleQuestion);
+  if (!options.script) questions.push(scriptQuestion);
+  if (!options.style) questions.push(styleQuestion);
 
   return questions;
 }
+
+const scriptQuestion = {
+  message: 'Do you want to build it in Javascript or Typescript?',
+  choices: ['Typescript', 'Javascript'],
+};
+
+const styleQuestion = {
+  message: 'Do you want use SCSS, Sass, or CSS?',
+  choices: ['SCSS', 'Sass', 'CSS'],
+};

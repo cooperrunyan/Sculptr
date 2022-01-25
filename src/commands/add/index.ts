@@ -1,64 +1,65 @@
-export { licenses } from './../build/types/Configuration.ts';
-import { licenses } from './../build/types/Configuration.ts';
+import { LicenseDescription } from './../../types/index.ts';
 import { path, fs } from '../../deps.ts';
 import { root } from '../../root.ts';
-import exec from '../build/utils/exec.ts';
+import { exec } from '../build/utils/exec.ts';
 import { getLicense } from './getLicense.ts';
 
-import helpLicense from './helpLicense.ts';
-import getFileJson from './getFileJson.ts';
+import { licenseHelp } from './helpLicense.ts';
+import { getFileJson } from './getFileJson.ts';
+import { License } from '../../types/index.ts';
 
-export const files = [
-  {
-    name: 'tsconfig',
-    accessors: ['tsc', 'ts', 'typescript', 'tsconfig'],
-  },
-  {
-    name: 'license',
-    accessors: ['license', 'lic', 'lics', 'license.txt'],
-  },
-] as const;
-
-export type File = typeof files[number]['name'];
-export type InputFile = typeof files[number]['accessors'][number];
-export type LicenseType = typeof licenses[number]['name'];
-
-export default {
-  license,
-  tsconfig,
-};
-
-export async function license(
-  {
-    log,
-    noOutput,
-    name,
-    year,
-    email,
-    project,
-    describe,
-  }: { log: boolean; noOutput?: boolean; name?: string; year?: string; email?: string; project?: string; describe?: boolean },
-  license: LicenseType,
+export async function cmdLicense(
+  args: Partial<{ log: boolean; noOutput: boolean; name: string; year: string; email: string; project: string; describe: boolean }>,
+  license: string,
 ) {
   try {
-    if (describe) return helpLicense(license);
-    const file = getLicense(license);
+    if (args.describe) return licenseHelp(license);
 
-    const fileName = file === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
+    const res = await _license(getLicense(license), {
+      name: args.name,
+      year: args.year,
+      email: args.email,
+      project: args.project,
+      write: !args.log,
+    });
 
-    const fileContent = ((await getFileJson('license.json', file)) as string)
-      .replaceAll('[fullname]', name || (await exec('git config --global --get user.name')))
-      .replaceAll('[year]', year || new Date().getFullYear() + '')
-      .replaceAll('[email]', email || (await exec('git config --global --get user.email')))
-      .replaceAll('[project]', project || path.resolve('.').split('/').at(-1) + '');
+    if (!res.wrote) return console.log(res.content);
 
-    if (log) return console.log(fileContent);
-
-    Deno.writeTextFileSync(path.resolve(fileName), fileContent);
-    if (!noOutput) console.log(`Successfully wrote ${fileName}`);
+    if (!args.noOutput) console.log(`Successfully wrote ${res.info.name} (${res.info.id}) in ${res.filename} `);
   } catch (err) {
     console.log(err.message);
   }
+}
+
+export { _license as license };
+
+async function _license(license: License, options: Partial<{ name: string; year: string; email: string; project: string; write: boolean }> = { write: true }) {
+  const filename = license === 'unlicense' ? 'UNLICENSE.txt' : 'LICENSE.txt';
+
+  const fileContent = ((await getFileJson('license.json', license)) as string)
+    .replaceAll('[fullname]', options.name || (await exec('git config --global --get user.name')))
+    .replaceAll('[year]', options.year || new Date().getFullYear() + '')
+    .replaceAll('[email]', options.email || (await exec('git config --dglobal --get user.email')))
+    .replaceAll('[project]', options.project || path.resolve('.').split('/').at(-1) + '');
+
+  if (!options.write)
+    return {
+      wrote: false,
+      filename: filename,
+      content: fileContent,
+      info: { name: '', id: '', year: 0, description: '', permissions: [], conditions: [], limitations: [] },
+    };
+
+  Deno.writeTextFileSync(path.resolve(filename), fileContent);
+
+  const file = (await getFileJson('descriptions.json', license)) as LicenseDescription;
+
+  return {
+    wrote: true,
+    filename: filename,
+    content: fileContent,
+    info: file,
+  };
 }
 
 export async function tsconfig({ log, strict, react, next, overwrite, noOutput }: { [key: string]: boolean | undefined }) {

@@ -1,8 +1,8 @@
 import { chalk, path } from '../../deps.ts';
 
-import type Configuration from './types/Configuration.ts';
-import exec from './utils/exec.ts';
-import add from '../add/index.ts';
+import { exec } from './utils/exec.ts';
+import * as add from '../add/index.ts';
+import { Configuration } from '../../types/index.ts';
 
 const enc = (str: string) => new TextEncoder().encode(str);
 
@@ -48,13 +48,13 @@ export async function writePackage(options: Configuration, username: string) {
   return newPackageFile;
 }
 
-export default async function rewriteFiles(options: Configuration, username: string, projectName: string, newPackageFile: object) {
-  const promises: Promise<void>[] = [];
+export async function rewriteFiles(options: Configuration, username: string, projectName: string, newPackageFile: object) {
+  const promises: Promise<any>[] = [];
   // gitignore
   promises.push(Deno.writeTextFile(path.resolve('./.gitignore'), 'node_modules\n'));
 
   // license
-  promises.push(add.license({ log: false, noOutput: true }, 'mit'));
+  promises.push(add.license('mit'));
 
   // tsconfig
   promises.push(add.tsconfig({ strict: true, [options.platform]: true, overwrite: true, noOutput: true }));

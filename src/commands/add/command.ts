@@ -1,6 +1,6 @@
-import add from './index.ts';
+import * as add from './index.ts';
 import { cliffy } from '../../deps.ts';
-import helpLicense from './helpLicense.ts';
+import { licenseHelp as helpLicense } from './helpLicense.ts';
 
 export const command = new cliffy.Command();
 
@@ -17,7 +17,7 @@ command
   .option('--project [project]', 'Set the project name, if the license uses one')
   .option('--year [year]', `Manually set the year, instead of ${new Date().getFullYear()}`)
   .description('Adds a new license to your project.')
-  .action(add.license);
+  .action(add.cmdLicense);
 
 command
   .command('tsconfig')

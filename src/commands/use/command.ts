@@ -1,4 +1,4 @@
-import use from './index.ts';
+import { use } from './index.ts';
 import { cliffy } from '../../deps.ts';
 
 export const command = new cliffy.Command();

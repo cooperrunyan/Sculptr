@@ -1,4 +1,4 @@
-import getFileJson, { getAll } from './getFileJson.ts';
+import { getFileJson, getAll } from './getFileJson.ts';
 import { getLicense } from './getLicense.ts';
 import { color } from '../../deps.ts';
 
@@ -15,7 +15,7 @@ const orange = (str: string) => color.rgb24(str, colors.orange);
 const red = (str: string) => color.rgb24(str, colors.red);
 const bold = (str: string) => color.bold(str);
 
-export default async function licenseHelp(license: string) {
+export async function licenseHelp(license: string) {
   if (!license) {
     // Show all license descriptions
     const doc = await getAll('descriptions.json');

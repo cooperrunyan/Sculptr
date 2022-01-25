@@ -1,5 +1,5 @@
-import { chalk, fs, path, Progress } from '../../../deps.ts';
-import exec from './exec.ts';
+import { chalk, fs, path } from '../../../deps.ts';
+import { exec } from './exec.ts';
 
 const enc = (str: string) => new TextEncoder().encode(str);
 
@@ -24,7 +24,7 @@ export async function packageJson(src: string) {
   return await Deno.writeTextFile(path.resolve('./package.json'), files['/package.json']);
 }
 
-export default async function (src: string) {
+export async function copy(src: string) {
   const startTime = Date.now();
   await Deno.stdout.write(enc(`  Writing files 0/0 (0.000s)\n`));
 
