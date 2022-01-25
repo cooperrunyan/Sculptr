@@ -1,5 +1,4 @@
 import { chalk, fs, path } from '../../../deps.ts';
-import { exec } from './exec.ts';
 
 const enc = (str: string) => new TextEncoder().encode(str);
 
