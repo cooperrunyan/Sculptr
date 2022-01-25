@@ -56,8 +56,7 @@ export async function copy(src: string) {
           const res = await Deno.readFile(import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + files[key]);
           Deno.writeFileSync('.' + key, res);
         } else {
-          console.log(root + ((await (await fetch(src)).json())[key] as any));
-          const rsp = await fetch(root + (await (await fetch(src)).json())[key]);
+          const rsp = await fetch(root + '/' + (await (await fetch(src)).json())[key]);
           const rdr = rsp.body?.getReader();
           if (rdr) {
             const r = readerFromStreamReader(rdr);
