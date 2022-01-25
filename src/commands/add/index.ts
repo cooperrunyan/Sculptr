@@ -71,7 +71,7 @@ export async function tsconfig({ log, strict, react, next, overwrite, noOutput }
   };
 
   const dir = getDir();
-  const fileContent = await Deno.readTextFile(dir);
+  const fileContent = !dir.startsWith('http') ? await Deno.readTextFile(dir) : await (await fetch(dir)).text();
 
   if ((fs.existsSync(path.resolve('tsconfig.json')) || log) && !overwrite)
     return console.log(
