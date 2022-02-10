@@ -1,5 +1,6 @@
 import { cliffy } from '../../deps.ts';
-import { _cmdBuild } from './build.ts';
+import { Platform } from '../../types/index.ts';
+import { action } from './action.ts';
 
 export const command = new cliffy.Command();
 
@@ -12,4 +13,30 @@ command
   .option('--css', 'Use CSS as a styling language')
   .option('--typescript, --ts', 'Use Typescript as a scripting language')
   .option('--javascript, --js', 'Use Javascript as a scripting language')
-  .action(_cmdBuild);
+  .action(
+    (
+      args: Partial<{
+        scss: boolean;
+        css: boolean;
+        sass: boolean;
+        typescript: boolean;
+        javascript: boolean;
+        skip: boolean;
+      }>,
+      platform: Platform,
+      dir: string,
+    ) => {
+      const _platform: Platform | undefined = ['next', 'n'].includes(platform) ? 'next' : ['react', 'r'].includes(platform) ? 'react' : undefined;
+      if (_platform === undefined) return console.log(`"${platform}" is not a supported platform`);
+      try {
+        action(dir, {
+          script: args.typescript ? 'typescript' : args.javascript ? 'javascript' : undefined,
+          platform: _platform,
+          style: args.scss ? 'scss' : args.css ? 'css' : args.sass ? 'sass' : undefined,
+          installDependencies: !args.skip,
+        });
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+  );

@@ -1,7 +1,7 @@
-import { question } from '../../deps.ts';
-import { scripts, styles } from '../../support/index.ts';
+import { question } from '../../../deps.ts';
+import { scripts, styles } from '../../../support/index.ts';
 
-export async function ask(
+export async function askQuestions(
   questions: {
     message: string;
     choices: string[];

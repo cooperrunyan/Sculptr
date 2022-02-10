@@ -19,7 +19,7 @@ async function getFiles(src: string) {
   return res;
 }
 
-export async function packageJson(src: string) {
+export async function copyPackage(src: string) {
   const files = await getFiles(src);
   fs.ensureDir('.');
   return await Deno.writeTextFile(path.resolve('./package.json'), files['/package.json']);

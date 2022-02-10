@@ -1,7 +1,7 @@
-import { chalk } from '../../deps.ts';
-import { exec } from './utils/exec.ts';
+import { chalk } from '../../../deps.ts';
+import { exec } from '../utils/exec.ts';
 
-export async function install(shouldInstall: boolean) {
+export async function installDependencies(shouldInstall: boolean) {
   if (!shouldInstall) return;
 
   let time = Date.now();
@@ -12,7 +12,7 @@ export async function install(shouldInstall: boolean) {
     await clearLastLine();
     await Deno.stdout.write(enc(`  Installing dependencies (${((Date.now() - time) / 1000).toFixed(1)}s)\n`));
   }
-  const int = setInterval(refresh, 10);
+  const int = setInterval(refresh, 100);
 
   await exec('npm i');
   clearInterval(int);

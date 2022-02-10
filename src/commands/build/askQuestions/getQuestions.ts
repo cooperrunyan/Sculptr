@@ -1,4 +1,4 @@
-import { IncompleteConfig } from '../../types/index.ts';
+import { IncompleteConfig } from '../../../types/index.ts';
 
 export function getQuestions(options: IncompleteConfig) {
   const questions = [];
