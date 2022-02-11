@@ -1,29 +1,21 @@
 import { getFileJson, getAll } from './getFileJson.ts';
 import { getLicense } from './getLicense.ts';
-import { color } from '../../deps.ts';
-
-const colors = {
-  blue: { r: 74, g: 165, b: 240 },
-  pink: { r: 193, g: 98, b: 222 },
-  orange: { r: 208, g: 142, b: 82 },
-  red: { r: 255, g: 97, b: 110 },
-} as const;
-
-const blue = (str: string) => color.rgb24(str, colors.blue);
-const pink = (str: string) => color.rgb24(str, colors.pink);
-const orange = (str: string) => color.rgb24(str, colors.orange);
-const red = (str: string) => color.rgb24(str, colors.red);
-const bold = (str: string) => color.bold(str);
+import { chalk } from '../../../deps.ts';
 
 export async function licenseHelp(license: string) {
   if (!license) {
     // Show all license descriptions
     const doc = await getAll('descriptions.json');
     const string = Object.keys(doc)
-      .map(key => `    ${red('-')} ${doc[key].name} ${doc[key].id ? pink('(') + blue(doc[key].id) + pink(') ') : ''}${bold(doc[key].year + '')}`)
+      .map(
+        (key) =>
+          `    ${chalk.red('-')} ${doc[key].name} ${doc[key].id ? chalk.magenta('(') + chalk.blue(doc[key].id) + chalk.magenta(') ') : ''}${chalk.bold(
+            doc[key].year + '',
+          )}`,
+      )
       .join('\n');
     const str = `
-  ${bold('Supported Licenses:')}
+  ${chalk.bold('Supported Licenses:')}
 
 ${string}
     `;
@@ -53,46 +45,46 @@ ${string}
       });
 
       const str = `
-  ${bold(file.name)} ${file.id ? orange('(') + pink(file.id) + orange(')') : ''}
-  Created in ${orange(file.year + '')}
+  ${chalk.bold(file.name)} ${file.id ? chalk.yellow('(') + chalk.magenta(file.id) + chalk.yellow(')') : ''}
+  Created in ${chalk.yellow(file.year + '')}
 
-  ${bold(`Description:`)}
+  ${chalk.bold(`Description:`)}
 
     ${file.description.split('\n').join(`\n     `)}
 
-  ${bold(`Permissions:`)}
+  ${chalk.bold(`Permissions:`)}
 
 ${
   file.permissions
     .map(
       (permission: { [key: string]: string }) =>
-        `    ${blue(permission.label.padEnd(maxPermissionLength, ' '))}  ${red(`-`)} ${permission.detail
+        `    ${chalk.blue(permission.label.padEnd(maxPermissionLength, ' '))}  ${chalk.red(`-`)} ${permission.detail
           .split('\n')
           .join(`\n      ${''.padEnd(maxPermissionLength, ' ')}`)}`,
     )
     .join('\n') || '    None'
 }
 
-  ${bold(`Limitations:`)}
+  ${chalk.bold(`Limitations:`)}
 
 ${
   file.limitations
     .map(
       (limitation: { [key: string]: string }) =>
-        `    ${blue(limitation.label.padEnd(maxLimitationLength, ' '))}  ${red(`-`)} ${limitation.detail
+        `    ${chalk.blue(limitation.label.padEnd(maxLimitationLength, ' '))}  ${chalk.red(`-`)} ${limitation.detail
           .split('\n')
           .join(`\n      ${''.padEnd(maxLimitationLength, ' ')}`)}`,
     )
     .join('\n') || '    None'
 }
 
-  ${bold(`Conditions:`)}
+  ${chalk.bold(`Conditions:`)}
 
 ${
   file.conditions
     .map(
       (condition: { [key: string]: string }) =>
-        `    ${blue(condition.label.padEnd(maxConditionLength, ' '))}  ${red(`-`)} ${condition.detail
+        `    ${chalk.blue(condition.label.padEnd(maxConditionLength, ' '))}  ${chalk.red(`-`)} ${condition.detail
           .split('\n')
           .join(`\n      ${''.padEnd(maxConditionLength, ' ')}`)}`,
     )

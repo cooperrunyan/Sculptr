@@ -5,7 +5,8 @@ import { action } from './action.ts';
 export const command = new cliffy.Command();
 
 command
-  .alias('b')
+  .name('build')
+  .arguments('<platform> <name>')
   .description('Builds scaffolding for a new project.')
   .option('--skip,-s', 'Skip the node_modules installation')
   .option('--scss', 'Use SCSS as a styling language')
@@ -13,6 +14,9 @@ command
   .option('--css', 'Use CSS as a styling language')
   .option('--typescript, --ts', 'Use Typescript as a scripting language')
   .option('--javascript, --js', 'Use Javascript as a scripting language')
+  .example('Build a React app', 'react <name>')
+  .example('Build a Next app', 'next <name>')
+
   .action(
     (
       args: Partial<{

@@ -7,7 +7,7 @@ import { exec } from './utils/exec.ts';
 import { writePackage, rewriteFiles } from './rewriteFiles/index.ts';
 import { installDependencies } from './installDependencies/index.ts';
 
-import { root } from '../../root.ts';
+import { base } from '../../base.ts';
 import { Configuration, IncompleteConfig } from '../../types/index.ts';
 import * as support from '../../support/index.ts';
 import { fs, path } from '../../deps.ts';
@@ -36,9 +36,9 @@ export async function action(directory: string, options: IncompleteConfig): Prom
   const username = (await exec('git config --global --get user.name').catch((err) => {})) || 'YOUR_NAME';
   console.log(' ');
 
-  await copyPackage(`${root}/assets/out/${pathToFiles}.json`);
+  await copyPackage(`${base}/assets/out/${pathToFiles}.json`);
   const packageJSON = await writePackage(settings, username);
-  await copy(`${root}/assets/out/${pathToFiles}.json`);
+  await copy(`${base}/assets/out/${pathToFiles}.json`);
   await rewriteFiles(settings, username, packageJSON.name, packageJSON);
   await installDependencies(options.installDependencies);
 

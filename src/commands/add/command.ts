@@ -1,14 +1,18 @@
-import * as add from './index.ts';
 import { cliffy } from '../../deps.ts';
-import { licenseHelp as helpLicense } from './helpLicense.ts';
+import { licenseHelp as helpLicense } from './helpers/helpLicense.ts';
+import * as actions from './actions.ts';
+import { getLicense } from './helpers/getLicense.ts';
 
 export const command = new cliffy.Command();
 
 const licenseHelp = new cliffy.Command();
 licenseHelp.description('Get descriptions of license usage and types').action(helpLicense);
 
+command.name('add').arguments('<file>').description('Add an asset to your cwd');
+
 command
   .command('license [type]')
+  .alias('l')
   .option('--describe,-d', 'Display a description of a given license type')
   .option('--log', 'Log the file instead of writing it')
   .option('--no-output', "Don't write a completion message")
@@ -17,7 +21,30 @@ command
   .option('--project [project]', 'Set the project name, if the license uses one')
   .option('--year [year]', `Manually set the year, instead of ${new Date().getFullYear()}`)
   .description('Adds a new license to your project.')
-  .action(add.cmdLicense);
+  .action(
+    async (
+      args: Partial<{ log: boolean; noOutput: boolean; name: string; year: string; email: string; project: string; describe: boolean }>,
+      license: string,
+    ) => {
+      try {
+        if (args.describe) return helpLicense(license);
+
+        const res = await actions.license(getLicense(license), {
+          name: args.name,
+          year: args.year,
+          email: args.email,
+          project: args.project,
+          write: !args.log,
+        });
+
+        if (!res.wrote) return console.log(res.content);
+
+        if (!args.noOutput) console.log(`Successfully wrote ${res.info.name} (${res.info.id}) in ${res.filename} `);
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
+  );
 
 command
   .command('tsconfig')
@@ -31,4 +58,4 @@ command
   .option('--next', 'Use compilerOptions that cater to next')
   .option('--overwrite', 'Overwrite the current tsconfig.json if it exists')
   .description('Adds a tsconfig file to your project.')
-  .action(add.tsconfig);
+  .action(actions.tsconfig);

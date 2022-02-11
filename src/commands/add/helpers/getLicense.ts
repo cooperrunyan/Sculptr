@@ -1,4 +1,4 @@
-import { licenses } from '../../support/index.ts';
+import { licenses } from '../../../support/index.ts';
 
 export function getLicense(str: string) {
   for (const license of licenses) {

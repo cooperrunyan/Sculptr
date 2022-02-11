@@ -122,18 +122,18 @@ $ sculptr add license isc
 ```
 
 ```bash
-$ sculptr add lic mit
+$ sculptr add l mit
 ```
 
 ```bash
-$ sculptr add lic 'Academic Free License'
+$ sculptr add l 'Academic Free License'
 ```
 
 ```bash
 $ sculptr add license 'GNU General Public License 3'
 ```
 
-###### Note: `lic` and `license` are interchangeable
+###### Note: `l` and `license` are interchangeable
 
 ###### Note: You can use the technical name for a license `Academic Free License v3.0` or `afl-3.0`.
 

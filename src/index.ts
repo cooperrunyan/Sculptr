@@ -1,28 +1,25 @@
 import { cliffy } from './deps.ts';
 
-import { command as use } from './commands/use/command.ts';
-import { command as add } from './commands/add/command.ts';
-
 import * as build from './commands/build/index.ts';
-import { use as useFunc } from './commands/use/index.ts';
-import * as addFunc from './commands/add/index.ts';
+import * as update from './commands/update/index.ts';
+import * as add from './commands/add/index.ts';
 
-const program = new cliffy.Command();
+import config from './config.ts';
 
-const version = '1.0.8';
-program.version(version).description('A command line tool for creating your projects');
+export const cli = new cliffy.Command();
 
-program.command('build <platform> <name>', build.command);
-program.command('use [version]', use);
-program.command('add <file>', add).description('Add an asset to your cwd');
+cli.name(config.name).version(config.version).description(config.description);
 
-program.parse(Deno.args);
+cli.command('build', build.command);
+cli.command('add', add.command);
+cli.command('update', update.command);
+
+cli.parse(Deno.args);
 
 export default {
   build: build.action,
-  use: useFunc,
   add: {
-    tsconfig: addFunc.tsconfig,
-    license: addFunc.license,
+    license: add.actions.license,
+    tsconfig: add.actions.tsconfig,
   },
 };

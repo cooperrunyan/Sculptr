@@ -1,6 +1,6 @@
 import { readerFromStreamReader } from 'https://deno.land/std@0.104.0/io/streams.ts';
 import { chalk, fs, path } from '../../../deps.ts';
-import { root } from '../../../root.ts';
+import { base } from '../../../base.ts';
 
 const enc = (str: string) => new TextEncoder().encode(str);
 
@@ -56,7 +56,7 @@ export async function copy(src: string) {
           const res = await Deno.readFile(import.meta.url.replace('src/commands/build/utils/copy.ts', '').replace('file://', '') + files[key]);
           Deno.writeFileSync('.' + key, res);
         } else {
-          const rsp = await fetch(root + '/' + (await (await fetch(src)).json())[key]);
+          const rsp = await fetch(base + '/' + (await (await fetch(src)).json())[key]);
           const rdr = rsp.body?.getReader();
           if (rdr) {
             const r = readerFromStreamReader(rdr);

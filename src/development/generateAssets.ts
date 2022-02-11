@@ -1,13 +1,13 @@
-import { fs, path } from './deps.ts';
-import { templateFolderNames as templates, scripts, styles, licenses } from './support/index.ts';
-import { LicenseContent, LicenseDescriptions } from './types/index.ts';
+import { fs, path } from '../deps.ts';
+import { templateFolderNames as templates, scripts, styles, licenses } from '../support/index.ts';
+import { LicenseContent, LicenseDescriptions } from '../types/index.ts';
 
 function getTemplates() {
   const allFiles: any = {};
 
-  templates.forEach(template => {
-    scripts.forEach(script => {
-      styles.forEach(style => {
+  templates.forEach((template) => {
+    scripts.forEach((script) => {
+      styles.forEach((style) => {
         const p = path.resolve('./assets/src', template, script, style);
         const jsonObj: any = {};
 
@@ -41,11 +41,11 @@ function getTemplates() {
 
 function writeTemplates(files: { [key: string]: string }) {
   fs.emptyDirSync('../assets/out');
-  templates.forEach(template => {
+  templates.forEach((template) => {
     fs.ensureDirSync(`./assets/out/${template}`);
-    scripts.forEach(script => {
+    scripts.forEach((script) => {
       fs.ensureDirSync(`./assets/out/${template}/${script}`);
-      styles.forEach(style => {
+      styles.forEach((style) => {
         Deno.writeTextFileSync(`./assets/out/${template}/${script}/${style}.json`, JSON.stringify(files[`${template}/${script}/${style}`]));
       });
     });
@@ -73,7 +73,7 @@ function writeLicenses(info: {}) {
 writeLicenses(getLicenses());
 
 function getLicenseDescriptions() {
-  const descriptions: LicenseDescriptions = JSON.parse(Deno.readTextFileSync('./src/commands/add/descriptions.json'));
+  const descriptions: LicenseDescriptions = JSON.parse(Deno.readTextFileSync('./src/commands/add/descriptions/descriptions.json'));
   const info: { [key: string]: LicenseContent } = {};
   for (const license of licenses) {
     const content: LicenseContent = JSON.parse(Deno.readTextFileSync(`./assets/src/files/license/descriptions/${license.name}.json`));
@@ -99,8 +99,8 @@ function getLicenseDescriptions() {
 }
 
 function writeLicenseDescriptions(licenses: { [key: string]: LicenseContent }) {
-  fs.ensureFileSync('./assets/out/files/license/descriptions.json');
-  Deno.writeTextFileSync('./assets/out/files/license/descriptions.json', JSON.stringify(licenses));
+  fs.ensureFileSync('./assets/out/files/license/descriptions/descriptions.json');
+  Deno.writeTextFileSync('./assets/out/files/license/descriptions/descriptions.json', JSON.stringify(licenses));
 }
 
 writeLicenseDescriptions(getLicenseDescriptions());

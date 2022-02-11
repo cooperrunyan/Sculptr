@@ -1,6 +1,5 @@
-import { chalk, path } from '../../../deps.ts';
+import { path } from '../../../deps.ts';
 
-import { exec } from '../utils/exec.ts';
 import * as add from '../../add/index.ts';
 import { Configuration } from '../../../types/index.ts';
 
@@ -10,10 +9,10 @@ export async function rewriteFiles(options: Configuration, username: string, pro
   promises.push(Deno.writeTextFile(path.resolve('./.gitignore'), 'node_modules\n'));
 
   // license
-  promises.push(add.license('mit'));
+  promises.push(add.actions.license('mit'));
 
   // tsconfig
-  promises.push(add.tsconfig({ strict: true, [options.platform]: true, overwrite: true, noOutput: true }));
+  promises.push(add.actions.tsconfig({ strict: true, [options.platform]: true, overwrite: true, noOutput: true }));
 
   // README.md
   promises.push(Deno.writeTextFile(path.resolve('./README.md'), `# ${projectName} \n\n###### - ${username}`));
