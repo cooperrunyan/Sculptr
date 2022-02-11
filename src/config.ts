@@ -1,6 +1,6 @@
-import { yml } from './deps.ts';
+import { yaml } from './deps.ts';
 
-export default yml.parse(new TextDecoder().decode(Deno.readFileSync('../config.yml'))) as {
+export default yaml.parse(Deno.readTextFileSync('./config.yaml')) as {
   name: string;
   author: string;
   description: string;
