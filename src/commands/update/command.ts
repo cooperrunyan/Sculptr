@@ -1,7 +1,7 @@
 import { DenoLandProvider, UpgradeCommand } from '../../deps.ts';
 
 export const command = new UpgradeCommand({
-  main: 'src/index.ts',
+  main: 'https://deno.land/x/sculptr/src/index.ts',
   args: ['-A', '--unstable'],
   provider: new DenoLandProvider(),
 });
