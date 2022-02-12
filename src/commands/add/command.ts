@@ -2,6 +2,7 @@ import { cliffy } from '../../deps.ts';
 import { licenseHelp as helpLicense } from './helpers/helpLicense.ts';
 import * as actions from './actions.ts';
 import { getLicense } from './helpers/getLicense.ts';
+import { print } from '../build/utils/print.ts';
 
 export const command = new cliffy.Command();
 
@@ -37,11 +38,11 @@ command
           write: !args.log,
         });
 
-        if (!res.wrote) return console.log(res.content);
+        if (!res.wrote) return print(res.content);
 
-        if (!args.noOutput) console.log(`Successfully wrote ${res.info.name} (${res.info.id}) in ${res.filename} `);
+        if (!args.noOutput) print(`Successfully wrote ${res.info.name} (${res.info.id}) in ${res.filename} `);
       } catch (err) {
-        console.log(err.message);
+        print(err.message);
       }
     },
   );

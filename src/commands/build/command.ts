@@ -1,6 +1,7 @@
 import { cliffy } from '../../deps.ts';
 import { Platform } from '../../types/index.ts';
 import { action } from './action.ts';
+import { print } from './utils/print.ts';
 
 export const command = new cliffy.Command();
 
@@ -31,7 +32,7 @@ command
       dir: string,
     ) => {
       const _platform: Platform | undefined = ['next', 'n'].includes(platform) ? 'next' : ['react', 'r'].includes(platform) ? 'react' : undefined;
-      if (_platform === undefined) return console.log(`"${platform}" is not a supported platform`);
+      if (_platform === undefined) return print(`"${platform}" is not a supported platform`);
       try {
         action(dir, {
           script: args.typescript ? 'typescript' : args.javascript ? 'javascript' : undefined,
@@ -40,7 +41,7 @@ command
           installDependencies: !args.skip,
         });
       } catch (err) {
-        console.log(err.message);
+        print(err.message);
       }
     },
   );

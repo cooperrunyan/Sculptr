@@ -1,6 +1,7 @@
 import { getFileJson, getAll } from './getFileJson.ts';
 import { getLicense } from './getLicense.ts';
 import { chalk } from '../../../deps.ts';
+import { print } from '../../build/utils/print.ts';
 
 export async function licenseHelp(license: string) {
   if (!license) {
@@ -19,7 +20,7 @@ export async function licenseHelp(license: string) {
 
 ${string}
     `;
-    console.log(str);
+    print(str);
   } else {
     try {
       license = getLicense(license);
@@ -92,9 +93,9 @@ ${
 }
 `;
 
-      console.log(str);
+      print(str);
     } catch (err) {
-      console.log(err.message);
+      print(err.message);
     }
   }
 }

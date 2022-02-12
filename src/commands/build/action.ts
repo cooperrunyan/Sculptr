@@ -1,3 +1,4 @@
+import { enc } from './write/utils.ts';
 import { Style, Script } from './../../types/index.ts';
 import { askQuestions, getQuestions } from './askQuestions/index.ts';
 
@@ -10,6 +11,7 @@ import { base } from '../../base.ts';
 import { Configuration, IncompleteConfig } from '../../types/index.ts';
 import * as support from '../../support/index.ts';
 import { fs, path } from '../../deps.ts';
+import { print } from './utils/print.ts';
 
 export async function action(directory: string, options: IncompleteConfig): Promise<void> {
   fs.ensureDirSync(path.resolve(directory));
@@ -32,10 +34,8 @@ export async function action(directory: string, options: IncompleteConfig): Prom
   if (!settings.script || !settings.style) return;
 
   const username = (await exec('git config --global --get user.name').catch((err) => {})) || 'YOUR_NAME';
-  console.log(' ');
+  print(' ');
 
   await copy(`${base}/assets/out/${settings.platform}-template/${settings.script}/${settings.style}.json`);
-  await write(settings, username);
-
-  return console.log(' ');
+  return write(settings, username);
 }

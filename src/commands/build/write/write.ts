@@ -5,15 +5,15 @@ import { Configuration } from '../../../types/index.ts';
 import { exec } from '../utils/exec.ts';
 import { base } from '../../../base.ts';
 import { copy, getFiles } from '../utils/copy.ts';
-
-const enc = (str: string) => new TextEncoder().encode(str);
-const clearLastLine = () => Deno.stdout.write(enc('\x1b[A\x1b[K')); // clears from cursor to line end
+import { sleep } from '../utils/sleep.ts';
+import { print } from '../utils/print.ts';
+import { clearLastLine, enc } from './utils.ts';
 
 export async function write(options: Configuration, username: string) {
   const promises: Promise<any>[] = [];
 
   const startTime = Date.now();
-  await Deno.stdout.write(enc(`  Writing files 0/0 (0.000s)\n`));
+  print(`  Writing files 0/0 (0.000s)`);
 
   let time = Date.now();
   let total = 0;
@@ -23,7 +23,7 @@ export async function write(options: Configuration, username: string) {
 
   async function refresh() {
     await clearLastLine();
-    await Deno.stdout.write(enc(`  Writing files (${total}) (${((Date.now() - time) / 1000).toFixed(1)}s)\n`));
+    print(`  Writing files (${total}) (${((Date.now() - time) / 1000).toFixed(1)}s)`);
   }
 
   await copy(`${base}/assets/out/${options.platform}-template/${options.script}/${options.style}.json`);
@@ -77,12 +77,10 @@ export async function write(options: Configuration, username: string) {
 
   promises.push(Deno.writeTextFile(hpDir, script));
 
-  await Promise.all(promises);
-
-  clearInterval(int);
-  await clearLastLine();
-  await Deno.stdout.write(enc(chalk.blue(`  Wrote files (${total}) (${((Date.now() - startTime) / 1000).toFixed(3)}s)\n`)));
-
-  return newPackageFile;
-  /////////////////////////////////////////
+  return Promise.all(promises).then(async () => {
+    clearInterval(int);
+    await clearLastLine();
+    print(chalk.blue(`  Wrote files (${total}) (${((Date.now() - startTime) / 1000).toFixed(3)}s)`));
+    print(' ');
+  });
 }

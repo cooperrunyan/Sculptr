@@ -5,6 +5,7 @@ import { exec } from '../build/utils/exec.ts';
 
 import { getFileJson } from './helpers/getFileJson.ts';
 import { License } from '../../types/index.ts';
+import { print } from '../build/utils/print.ts';
 
 export async function license(
   license: License,
@@ -50,10 +51,10 @@ export async function tsconfig({ log, strict, react, next, overwrite, noOutput }
   const fileContent = !dir.startsWith('http') ? await Deno.readTextFile(dir) : await (await fetch(dir)).text();
 
   if ((fs.existsSync(path.resolve('tsconfig.json')) || log) && !overwrite)
-    return console.log(
+    return print(
       `${fs.existsSync(path.resolve('tsconfig.json')) ? "error: File: 'tsconfig.json' already exists. Here is the new code:\n\n" : ''}${fileContent}`,
     );
 
   Deno.writeTextFileSync(path.resolve('tsconfig.json'), fileContent);
-  if (!noOutput) console.log('Successfully wrote tsconfig.json');
+  if (!noOutput) print('Successfully wrote tsconfig.json');
 }

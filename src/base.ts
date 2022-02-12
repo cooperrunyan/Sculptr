@@ -1,1 +1,1 @@
-export const base = import.meta.url.replace('/src/base.ts', '');
+export const base = new URL(import.meta.url + '../../..').href;
