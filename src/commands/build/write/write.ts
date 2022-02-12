@@ -19,14 +19,14 @@ export async function write(options: Configuration, username: string) {
   let total = 0;
   const int = setInterval(refresh, 100);
 
-  total = Object.keys(await getFiles(`${base}/assets/out/${options.platform}-template/${options.script}/${options.style}.json`)).length - 1 + 4;
+  total = Object.keys(await getFiles(`${base}assets/out/${options.platform}-template/${options.script}/${options.style}.json`)).length - 1 + 4;
 
   async function refresh() {
     await clearLastLine();
     print(`  Writing files (${total}) (${((Date.now() - time) / 1000).toFixed(1)}s)`);
   }
 
-  await copy(`${base}/assets/out/${options.platform}-template/${options.script}/${options.style}.json`);
+  await copy(`${base}assets/out/${options.platform}-template/${options.script}/${options.style}.json`);
 
   // package
   const oldPackage = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));

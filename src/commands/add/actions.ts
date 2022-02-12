@@ -41,9 +41,9 @@ export async function license(
 
 export async function tsconfig({ log, strict, react, next, overwrite, noOutput }: { [key: string]: boolean | undefined }) {
   const getDir = () => {
-    if (!next && !react) return `${base.replace('file://', '')}/assets/out/files/tsconfig/tsconfig-${strict ? 'strict' : 'loose'}.json`;
-    if (next && !react) return `${base.replace('file://', '')}/assets/out/files/tsconfig/tsconfig-next--${strict ? 'strict' : 'loose'}.json`;
-    if (!next && react) return `${base.replace('file://', '')}/assets/out/files/tsconfig/tsconfig-react--${strict ? 'strict' : 'loose'}.json`;
+    if (!next && !react) return `${base.replace('file://', '')}assets/out/files/tsconfig/tsconfig-${strict ? 'strict' : 'loose'}.json`;
+    if (next && !react) return `${base.replace('file://', '')}assets/out/files/tsconfig/tsconfig-next--${strict ? 'strict' : 'loose'}.json`;
+    if (!next && react) return `${base.replace('file://', '')}assets/out/files/tsconfig/tsconfig-react--${strict ? 'strict' : 'loose'}.json`;
     throw new Error('You cannot use --next AND --react');
   };
 
