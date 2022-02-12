@@ -36,6 +36,7 @@ export async function action(directory: string, options: IncompleteConfig): Prom
   const username = (await exec('git config --global --get user.name').catch((err) => {})) || 'YOUR_NAME';
   print(' ');
 
-  await copy(`${base}/assets/out/${settings.platform}-template/${settings.script}/${settings.style}.json`);
+  console.log(`${base}assets/out/${settings.platform}-template/${settings.script}/${settings.style}.json`);
+  await copy(`${base}assets/out/${settings.platform}-template/${settings.script}/${settings.style}.json`);
   return write(settings, username);
 }
