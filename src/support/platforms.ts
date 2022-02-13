@@ -1,2 +1,2 @@
-export const platforms = ['next', 'react'] as const;
-export const templateFolderNames = ['next-template', 'react-template'] as const;
+export const platforms = ['next', 'react', 'oak'] as const;
+export const templateFolderNames = ['next-template', 'react-template', 'oak-template'] as const;

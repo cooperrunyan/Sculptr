@@ -29,13 +29,13 @@ $ deno install --unstable --allow-write --allow-read --allow-net --allow-run -n 
 - Run:
 
 ```bash
-$ sculptr build <platform> <name> [options]
+$ sculptr build web <platform> <name> [options]
 ```
 
 #### For example
 
 ```bash
-$ sculptr build react my-new-app --typescript
+$ sculptr build web react my-new-app --typescript
 ```
 
 This will make a `my-new-app` folder in the current working directory, and initialize the project there. You could also use:
@@ -76,12 +76,11 @@ Sculptr uses the project name in the package.json file, and the README.md. It us
 
 ### Arguments
 
-- `<platform>` The type of app that sculptr creates ('next', or 'react')
+- `<platform>` The type of app that sculptr creates ('next', 'oak', or 'react')
 - `<name>` The name of the app. Could be a directory or a word, if the value for "name" is "." it uses the parent folder's name, and initializes in the parent folder
 
 ### Flags
 
-- `--skip` This skips installing `node_modules` and doesn't run `npm i`
 - `--typescript`, `--ts` This sets the script to typescript
 - `--javascript`, `--js` This sets the script to javascript
 - `--scss` This sets the style to scss
@@ -139,7 +138,7 @@ $ sculptr add license 'GNU General Public License 3'
 
 ###### Note: License type detection is based off of RegEx, so small typos generally can be overlooked.
 
-## Update/Use/Install
+## Update/Upgrade/Install
 
 Updates sculptr to a given version (defaults to the latest)
 
@@ -148,11 +147,11 @@ $ sculptr update
 ```
 
 ```bash
-$ sculptr use X.X.X
+$ sculptr upgrade X.X.X
 ```
 
 ```bash
-$ sculptr use latest
+$ sculptr upgrade latest
 ```
 
 ```bash

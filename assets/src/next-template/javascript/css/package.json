@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "keywords": [],
-  "author": "Cooper Runyan",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "@svgr/webpack": "^6.1.2",

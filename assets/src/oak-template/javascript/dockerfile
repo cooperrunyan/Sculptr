@@ -1,0 +1,16 @@
+FROM hayd/ubuntu-deno:1.5.2
+
+EXPOSE 3000
+WORKDIR /usr/app
+
+RUN deno install -qAfn vr --no-check https://deno.land/x/velociraptor@1.4.0/cli.ts
+
+COPY src/deps.js ./src/deps.js
+RUN deno cache --unstable src/deps.js
+
+ADD . .
+RUN deno cache --unstable src/server/server.js
+
+ENTRYPOINT [ "/usr/local/bin/vr" ]
+
+CMD ["local"]

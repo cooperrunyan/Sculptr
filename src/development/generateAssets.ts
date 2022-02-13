@@ -6,6 +6,7 @@ function getTemplates() {
   const allFiles: any = {};
 
   templates.forEach((template) => {
+    if (template === 'oak-template') return;
     scripts.forEach((script) => {
       styles.forEach((style) => {
         const p = path.resolve('./assets/src', template, script, style);
@@ -36,20 +37,62 @@ function getTemplates() {
       });
     });
   });
+
+  templates.forEach((template) => {
+    if (template !== 'oak-template') return;
+    scripts.forEach((script) => {
+      const p = path.resolve('./assets/src', template, script);
+      const jsonObj: any = {};
+
+      function file(pat: string) {
+        if (Deno.lstatSync(pat).isDirectory) {
+          // recursive
+
+          const children = Deno.readDirSync(pat);
+          for (const child of children) {
+            const childPath = path.resolve(pat, child.name);
+            file(childPath);
+          }
+        } else {
+          // if it's a file
+          const relativePath = pat.split(`${template}/${script}`)[1];
+
+          if (/DS.STORE/gi.test(pat)) return;
+
+          const pathToImage = `assets/src/${template}/${script}${relativePath}`;
+
+          if (/.png$|.ico$|.jpg$|.jpeg$/.test(pat)) jsonObj[relativePath] = pathToImage;
+          else jsonObj[relativePath] = Deno.readTextFileSync(pat);
+        }
+      }
+      file(p);
+
+      allFiles[`${template}/${script}`] = jsonObj;
+    });
+  });
   return allFiles;
 }
 
 function writeTemplates(files: { [key: string]: string }) {
-  fs.emptyDirSync('../assets/out');
-  templates.forEach((template) => {
-    fs.ensureDirSync(`./assets/out/${template}`);
-    scripts.forEach((script) => {
-      fs.ensureDirSync(`./assets/out/${template}/${script}`);
-      styles.forEach((style) => {
-        Deno.writeTextFileSync(`./assets/out/${template}/${script}/${style}.json`, JSON.stringify(files[`${template}/${script}/${style}`]));
-      });
+  {
+    fs.emptyDirSync('../assets/out');
+    templates.forEach((template) => {
+      if (template !== 'oak-template') {
+        fs.ensureDirSync(`./assets/out/${template}`);
+        scripts.forEach((script) => {
+          fs.ensureDirSync(`./assets/out/${template}/${script}`);
+          styles.forEach((style) => {
+            Deno.writeTextFileSync(`./assets/out/${template}/${script}/${style}.json`, JSON.stringify(files[`${template}/${script}/${style}`]));
+          });
+        });
+      } else {
+        fs.ensureDirSync(`./assets/out/${template}`);
+        scripts.forEach((script) => {
+          Deno.writeTextFileSync(`./assets/out/${template}/${script}.json`, JSON.stringify(files[`${template}/${script}`]));
+        });
+      }
     });
-  });
+  }
 }
 
 fs.emptyDirSync('./assets/out');
@@ -99,8 +142,8 @@ function getLicenseDescriptions() {
 }
 
 function writeLicenseDescriptions(licenses: { [key: string]: LicenseContent }) {
-  fs.ensureFileSync('./assets/out/files/license/descriptions/descriptions.json');
-  Deno.writeTextFileSync('./assets/out/files/license/descriptions/descriptions.json', JSON.stringify(licenses));
+  fs.ensureFileSync('./assets/out/files/license/descriptions.json');
+  Deno.writeTextFileSync('./assets/out/files/license/descriptions.json', JSON.stringify(licenses));
 }
 
 writeLicenseDescriptions(getLicenseDescriptions());

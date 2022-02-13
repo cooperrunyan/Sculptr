@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "build": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable -A ../src/index.ts build react . --ts --scss --skip",
-    "add": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable -A ../src/index.ts add license afl",
-    "assets": "deno run --unstable -A src/generateAssets.ts",
-    "update": "deno uninstall sculptr && deno install --unstable -A -n sculptr -f https://deno.land/x/sculptr/src/index.ts",
-    "help": "rm -rf ./TEST && mkdir ./TEST && cd ./TEST && deno run --unstable -A ../src/index.ts --help"
-  }
-}
