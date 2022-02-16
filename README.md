@@ -4,24 +4,17 @@ Sculptr is a cli that allows users to build project scaffolding. When a user tel
 
 ---
 
-## Prerequisites
-
-- Npm
-- Github
-
----
-
 ## Installation
 
 ### Deno
 
 ```bash
-$ deno install --unstable --allow-write --allow-read --allow-net --allow-run -n sculptr --allow-env -f https://deno.land/x/sculptr/src/index.ts
+$ deno install --unstable -qAfn sculptr https://deno.land/x/sculptr/src/index.ts
 ```
 
 ---
 
-## Build
+## Build Web/Front/Frontend
 
 ### Step 1:
 
@@ -35,10 +28,10 @@ $ sculptr build web <platform> <name> [options]
 #### For example
 
 ```bash
-$ sculptr build web react my-new-app --typescript
+$ sculptr build front react my-new-app --typescript
 ```
 
-This will make a `my-new-app` folder in the current working directory, and initialize the project there. You could also use:
+This will make a `my-new-app` folder in the current working directory, and initialize the project there.
 
 It will then ask:
 
@@ -52,31 +45,13 @@ In this demo, SCSS is selected. It will then output the following
 
 ```bash
 
-  Wrote package.json (0.164s)
-  Wrote files 17/17 (0.005s)
-  Installed dependencies (26.91s)
+  Wrote files (21) (0.754s)
 
 ```
 
----
-
-### How it works
-
-#### Username
-
-It gets the Username for the project by running `git config --global --get user.name` to get the user's github name. I chose this to keep the cli and user experience simple, and a lot of people have github.
-
-#### Project Name
-
-Sculptr gets the project name from the parent folder; ie. if it was building a project in: `/Users/<USER>/Desktop/new-project/` it would read `new-project` as the project name.
-
-#### Project Name/Username Usage
-
-Sculptr uses the project name in the package.json file, and the README.md. It uses the Username in the package.json file (author), in the README.md, and the LICENSE file.
-
 ### Arguments
 
-- `<platform>` The type of app that sculptr creates ('next', 'oak', or 'react')
+- `<platform>` The type of app that sculptr creates ('next', or 'react')
 - `<name>` The name of the app. Could be a directory or a word, if the value for "name" is "." it uses the parent folder's name, and initializes in the parent folder
 
 ### Flags
@@ -86,6 +61,43 @@ Sculptr uses the project name in the package.json file, and the README.md. It us
 - `--scss` This sets the style to scss
 - `--sass` This sets the style to sass
 - `--css` This sets the style to css
+
+## Build Api/Back/Backend
+
+### Step 1:
+
+- Open the folder you want to build the project in
+- Run:
+
+```bash
+$ sculptr build api <platform> <name> [options]
+```
+
+#### For example
+
+```bash
+$ sculptr build backend oak my-new-app --typescript
+```
+
+This will make a `my-new-app` folder in the current working directory, and initialize the project there.
+
+### Step 2:
+
+```bash
+
+  Wrote files (16) (0.754s)
+
+```
+
+### Arguments
+
+- `<platform>` The type of app that sculptr creates ('oak', or 'express')
+- `<name>` The name of the app. Could be a directory or a word, if the value for "name" is "." it uses the parent folder's name, and initializes in the parent folder
+
+### Flags
+
+- `--typescript`, `--ts` This sets the script to typescript
+- `--javascript`, `--js` This sets the script to javascript
 
 ## Add
 
