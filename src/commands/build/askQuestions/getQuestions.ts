@@ -1,10 +1,10 @@
 import { IncompleteConfig } from '../../../types/index.ts';
 
-export function getQuestions(options: IncompleteConfig) {
+export function getQuestions(options: IncompleteConfig, askStyle: boolean) {
   const questions = [];
 
   if (!options.script) questions.push(scriptQuestion);
-  if (!options.style) questions.push(styleQuestion);
+  if (!options.style && askStyle) questions.push(styleQuestion);
 
   return questions;
 }

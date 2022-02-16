@@ -1,4 +1,3 @@
-import { enc } from './write/utils.ts';
 import { Style, Script } from './../../types/index.ts';
 import { askQuestions, getQuestions } from './askQuestions/index.ts';
 
@@ -19,13 +18,7 @@ export async function action(end: 'front' | 'back', directory: string, options: 
 
   if (!support.platforms.includes(options.platform)) throw new Error(`"${options.platform}" is not a supported platform`);
 
-  const answers =
-    end === 'front'
-      ? await askQuestions(getQuestions(options))
-      : {
-          script: undefined,
-          style: 'scss',
-        };
+  const answers = await askQuestions(getQuestions(options, end === 'front'));
 
   const settings: Configuration =
     end === 'front'
@@ -37,7 +30,7 @@ export async function action(end: 'front' | 'back', directory: string, options: 
           strict: !!options.strict,
         }
       : {
-          script: options.script || 'typescript',
+          script: ((answers.script as string).toLowerCase() as Script) || options.script,
           ...options,
           style: 'scss',
           license: options.license || 'mit',

@@ -16,8 +16,8 @@ command
   .option('--css', 'Use CSS as a styling language')
   .option('--typescript, --ts', 'Use Typescript as a scripting language')
   .option('--javascript, --js', 'Use Javascript as a scripting language')
-  .example('Build a React app', 'react <name>')
-  .example('Build a Next app', 'next <name>')
+  .example('Build a React app', 'sculptr build web react <name>')
+  .example('Build a Next app', 'sculptr build web next <name>')
   .action(
     (
       args: Partial<{
@@ -54,8 +54,9 @@ command
   .description('Builds scaffolding for a new project.')
   .option('--typescript, --ts', 'Use Typescript as a scripting language')
   .option('--javascript, --js', 'Use Javascript as a scripting language')
-  .example('Build an Oak app', 'oak <name>')
-  .example('Build an Express app', 'express <name>')
+  .example('Build an Oak app', 'sculptr build api oak <name>')
+  .example('Build an Drash app', 'sculptr build api drash <name>')
+  .example('Build an Opine app', 'sculptr build api opine <name>')
   .action(
     (
       args: Partial<{
@@ -66,7 +67,13 @@ command
       platform: Platform,
       dir: string,
     ) => {
-      const _platform: Platform | undefined = ['oak'].includes(platform) ? 'oak' : undefined;
+      const _platform: Platform | undefined = ['oak'].includes(platform)
+        ? 'oak'
+        : ['drash'].includes(platform)
+        ? 'drash'
+        : ['opine'].includes(platform)
+        ? 'opine'
+        : undefined;
       if (_platform === undefined) return print(`"${platform}" is not a supported platform`);
       try {
         action('back', dir, {

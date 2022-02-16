@@ -1,6 +1,6 @@
 scripts:
   web: rm -rf ./TEST; mkdir ./TEST; mkdir ./TEST/WEB; cd ./TEST/WEB; deno run --unstable -A ../../src/index.ts build web react . --ts --scss
-  api: rm -rf ./TEST; mkdir ./TEST; mkdir ./TEST/API; cd ./TEST/API; deno run --unstable -A ../../src/index.ts build api oak . --ts
+  api: rm -rf ./TEST; mkdir ./TEST; mkdir ./TEST/API; cd ./TEST/API; deno run --unstable -A ../../src/index.ts build api opine . --ts
   api:js: rm -rf ./TEST; mkdir ./TEST; mkdir ./TEST/APIJS; cd ./TEST/APIJS; deno run --unstable -A ../../src/index.ts build api oak . --js
   tsc: rm -rf ./TEST; mkdir ./TEST; mkdir ./TEST/TSC; cd ./TEST/TSC; deno run --unstable -A ../../src/index.ts add tsc
   license: rm -rf ./TEST; mkdir ./TEST; mkdir ./TEST/LICENSE; cd ./TEST/LICENSE; deno run --unstable -A ../../src/index.ts add license afl

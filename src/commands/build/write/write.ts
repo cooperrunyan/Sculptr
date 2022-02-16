@@ -29,7 +29,7 @@ export async function write(end: 'front' | 'back', options: Configuration, usern
   }
 
   await copy(`${base}assets/out/${options.platform}-template/${options.script}${end === 'front' ? '/' + options.style : ''}.json`);
-  if (options.platform !== 'oak') {
+  if (!['oak', 'drash', 'opine'].includes(options.platform)) {
     // package
     const oldPackage = JSON.parse(Deno.readTextFileSync(path.resolve('./package.json')));
     Deno.removeSync(path.resolve('./package.json'));
@@ -45,7 +45,7 @@ export async function write(end: 'front' | 'back', options: Configuration, usern
       license: options.license || 'mit',
     };
 
-    if (options.platform === 'next' || options.platform === 'react')
+    if (['next', 'react'].includes(options.platform))
       newPackageFile.browserslist = {
         production: ['>0.2%', 'not dead', 'not op_mini all'],
         development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],

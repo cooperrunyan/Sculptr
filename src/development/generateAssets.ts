@@ -6,7 +6,7 @@ function getTemplates() {
   const allFiles: any = {};
 
   templates.forEach((template) => {
-    if (template === 'oak-template') return;
+    if (['oak-template', 'drash-template', 'opine-template'].includes(template)) return;
     scripts.forEach((script) => {
       styles.forEach((style) => {
         const p = path.resolve('./assets/src', template, script, style);
@@ -39,7 +39,7 @@ function getTemplates() {
   });
 
   templates.forEach((template) => {
-    if (template !== 'oak-template') return;
+    if (!['oak-template', 'drash-template', 'opine-template'].includes(template)) return;
     scripts.forEach((script) => {
       const p = path.resolve('./assets/src', template, script);
       const jsonObj: any = {};
@@ -77,7 +77,7 @@ function writeTemplates(files: { [key: string]: string }) {
   {
     fs.emptyDirSync('../assets/out');
     templates.forEach((template) => {
-      if (template !== 'oak-template') {
+      if (!['oak-template', 'drash-template', 'opine-template'].includes(template)) {
         fs.ensureDirSync(`./assets/out/${template}`);
         scripts.forEach((script) => {
           fs.ensureDirSync(`./assets/out/${template}/${script}`);
